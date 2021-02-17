@@ -21,6 +21,13 @@ public class MemberServiceImpl implements MemberService {
 		dao.Join(vo);
 	}
 	
+	//아이디 중복 체크
+	@Override
+	public int idCheck(String userId) throws Exception {
+		return dao.idCheck(userId);
+	}
+	
+
 	//로그인
 	@Override
 	public MemberVO login(MemberVO vo) throws Exception {
@@ -32,5 +39,5 @@ public class MemberServiceImpl implements MemberService {
 	public void logout(HttpSession session) throws Exception {
 		session.invalidate(); //로그아웃시 로그인 할때 만들어진 session을 삭제한다.		
 	}
-	
+
 }

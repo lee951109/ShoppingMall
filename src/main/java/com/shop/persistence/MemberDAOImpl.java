@@ -14,15 +14,22 @@ public class MemberDAOImpl implements MemberDAO {
 	
 	private static String namespace = "com.shop.mappers.memberMapper";
 	
+	//회원가입
 	@Override
 	public void Join(MemberVO vo) throws Exception {
 		session.insert(namespace + ".Join", vo);
 
 	}
+	
+	//아이디 중복 체크
+	@Override
+	public int idCheck(String userId) throws Exception {
+		return session.selectOne(namespace +".idCheck", userId);
+	}
 
+	//로그인
 	@Override
 	public MemberVO login(MemberVO vo) throws Exception {
 		return session.selectOne(namespace + ".login", vo);
 	}
-
 }

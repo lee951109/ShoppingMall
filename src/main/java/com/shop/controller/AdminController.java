@@ -17,4 +17,10 @@ public class AdminController {
 	public void indexGET()throws Exception{
 		logger.info("get 관리자");
 	}
+	
+	//상품 등록
+	@RequestMapping(value = "/goods/register", method = RequestMethod.GET)
+	public void registerGET()throws Exception{
+		logger.info("get 상품 등록");
+	}
 }

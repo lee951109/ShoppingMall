@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 페이지</title>
+<title>상품 등록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
@@ -20,7 +20,7 @@ footer {
 <body>
 <div class="container-fluid">
   <br>
-  <h3>관리자 페이지 입니다.</h3>
+  <h3>상품 등록 페이지</h3>
  
 </div>
 
@@ -72,7 +72,7 @@ footer {
         Admin
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="/admin/goods/register">상품 등록</a>
+        <a class="dropdown-item" href="#">상품 등록</a>
         <a class="dropdown-item" href="#">상품 목록</a>
         <a class="dropdown-item" href="#">상품 소감</a>
         <a class="dropdown-item" href="#">유저 목록</a>
@@ -99,8 +99,7 @@ footer {
 
 <!-- 바디 영역! -->
 <div class="container-fluid">
-
-본문 영역
+<h2 style="text-align:center;">상품 등록</h2>
 </div>
 
 

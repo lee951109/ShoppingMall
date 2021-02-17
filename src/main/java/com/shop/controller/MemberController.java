@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shop.domain.MemberVO;
@@ -44,6 +46,13 @@ public class MemberController {
 		
 		service.Join(vo);
 		return "redirect:/";
+	}
+	
+	//아이디 중복 체크
+	@ResponseBody
+	@RequestMapping(value = "/idCheck", method = RequestMethod.GET)
+	public int idCheck(@RequestParam("userId") String userId)throws Exception {
+		return service.idCheck(userId);
 	}
 	
 	//로그인 get

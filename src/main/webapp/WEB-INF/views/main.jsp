@@ -8,7 +8,13 @@
 <title>메인</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+<style>
+footer {
+  height: 100px;
+  margin-top: -100px;
+  background-color: gray;
+ }
+</style>
 </head>
 
 <body>
@@ -25,7 +31,7 @@
   <!-- Dropdown -->
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        아우터
+        Outer
       </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#">패딩</a>
@@ -35,21 +41,32 @@
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        상의
+        Top
       </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#">긴팔</a>
         <a class="dropdown-item" href="#">반팔</a>
+        <a class="dropdown-item" href="#">셔츠</a>
       </div>
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        하의
+        Pants
       </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#">청바지</a>
         <a class="dropdown-item" href="#">반바지</a>
         <a class="dropdown-item" href="#">바지</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Accessory
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">목도리</a>
+        <a class="dropdown-item" href="#">반지</a>
+        <a class="dropdown-item" href="#">장갑</a>
       </div>
     </li>
   </ul>
@@ -86,8 +103,17 @@
 
 <!-- 바디 영역! -->
 <div class="container-fluid">
+바디 영역
 </div>
 
+
+<footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+</footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
