@@ -106,7 +106,6 @@ $(document).ready(function(){
 	
 	var code = ""; //이메일전송 인증번호 저장을 위한 코드
 	$('#userId').blur(function(){ //blur 이벤트는 포커스가 해제되었을때 발생
-		//id = "id_reg" / name = "userId"
 		var userId = $('#userId').val();
 		$.ajax({
 			url : '${pageContext.request.contextPath}/member/idCheck?userId='+ userId,

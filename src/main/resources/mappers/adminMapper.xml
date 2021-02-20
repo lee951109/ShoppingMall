@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mappers.adminMapper">
+
+	<!-- 상품 등록 -->
+	<insert id="register">
+		insert into goods(gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes)
+		values(#{gdsNum}, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes})
+	</insert>
+	
+	<!-- 상품 목록 -->
+	<select id="goodslist" resultType="com.shop.domain.GoodsVO">
+		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+		from goods
+		order by gdsNum desc 
+	</select>
+
+	<!-- 상품 조회 -->
+	<select id="goodsDetail" resultType="com.shop.domain.GoodsVO">
+		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+		from goods
+		where gdsNum = #{gdsNum}
+	</select>
+</mapper>
+

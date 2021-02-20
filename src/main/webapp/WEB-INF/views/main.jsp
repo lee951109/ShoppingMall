@@ -31,42 +31,34 @@ footer {
   <!-- Dropdown -->
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        Outer
+        무기(Weapon)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">패딩</a>
-        <a class="dropdown-item" href="#">자켓</a>
-        <a class="dropdown-item" href="#">코트</a>
+        <a class="dropdown-item" href="#">돌격소총(AR)</a>
+        <a class="dropdown-item" href="#">기관단총(SMG)</a>
+        <a class="dropdown-item" href="#">산탄총(SG)</a>
+        <a class="dropdown-item" href="#">소총(DMR)</a>
+        <a class="dropdown-item" href="#">저격총(SR)</a>
       </div>
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        Top
+        탄(Bullet)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">긴팔</a>
-        <a class="dropdown-item" href="#">반팔</a>
-        <a class="dropdown-item" href="#">셔츠</a>
+        <a class="dropdown-item" href="#">5.56mm</a>
+        <a class="dropdown-item" href="#">7.62mm</a>
+        <a class="dropdown-item" href="#">9mm</a>
       </div>
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        Pants
+        방탄구(Armor)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">청바지</a>
-        <a class="dropdown-item" href="#">반바지</a>
-        <a class="dropdown-item" href="#">바지</a>
-      </div>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        Accessory
-      </a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">목도리</a>
-        <a class="dropdown-item" href="#">반지</a>
-        <a class="dropdown-item" href="#">장갑</a>
+        <a class="dropdown-item" href="#">방탄헬멧(Helmet)</a>
+        <a class="dropdown-item" href="#">방탄조끼(Jacket)</a>
+        <a class="dropdown-item" href="#">전술가방(Backpack)</a>
       </div>
     </li>
   </ul>

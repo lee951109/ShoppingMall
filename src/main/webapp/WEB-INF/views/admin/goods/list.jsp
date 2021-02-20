@@ -1,26 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 페이지</title>
+<title>무기 목록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
-footer {
-  height: 100px;
-  margin-top: -100px;
-  background-color: gray;
- }
+#container_box table td{
+	width:100px;
+}
 </style>
 </head>
 
 <body>
 <div class="container-fluid">
   <br>
-  <h3>관리자 페이지 입니다.</h3>
+  <h3>상품 목록</h3>
  
 </div>
 
@@ -91,19 +90,42 @@ footer {
 </nav>
 
 <!-- 바디 영역! -->
-<div class="container-fluid">
 
-본문 영역
-</div>
+	<div id="container_box">
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>상품명</th>
+					<th>카테고리</th>
+					<th>가격</th>
+					<th>수량</th>
+					<th>등록날짜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${list}" var="list">
+					<tr>
+						<td>${list.gdsNum}</td>
+						<td>
+							<a href="/admin/goods/detail?n=${list.gdsNum}">${list.gdsName}</a>
+						</td>
+						<td>${list.cateCode}</td>
+						<td>
+							<fmt:formatNumber value="${list.gdsPrice}" pattern="###,###,###"/>원
+						</td>
+						<td>${list.gdsStock}개</td>
+						<td>
+							<fmt:formatDate value="${list.gdsDate}" pattern="yyyy-mm-dd" />
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 
 
-<footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-</footer>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

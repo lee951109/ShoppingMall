@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 페이지</title>
+<title>상품 등록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
@@ -20,7 +22,7 @@ footer {
 <body>
 <div class="container-fluid">
   <br>
-  <h3>관리자 페이지 입니다.</h3>
+  <h3>상품 등록 페이지</h3>
  
 </div>
 
@@ -29,7 +31,7 @@ footer {
   <ul class="navbar-nav">
   <!-- Dropdown -->
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+      <a class="nav-link dropdown-toggle" href="search" id="navbardrop" data-toggle="dropdown">
         무기(Weapon)
       </a>
       <div class="dropdown-menu">
@@ -66,7 +68,7 @@ footer {
       </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="/admin/goods/register">무기 등록</a>
-        <a class="dropdown-item" href="/admin/goods/list">무기 목록</a>
+        <a class="dropdown-item" href="#">무기 목록</a>
         <a class="dropdown-item" href="#">상품 소감</a>
         <a class="dropdown-item" href="#">유저 목록</a>
       </div>
@@ -91,20 +93,70 @@ footer {
 </nav>
 
 <!-- 바디 영역! -->
-<div class="container-fluid">
+<div class="container">
+	<div class="row">
+		<div class="col-lg-9">
+	   		<br>
+	   			<div id="carouselExampleIndicators">				
+					<form method="post" role="form" autocomplete="off">
+						<table class="table" style="border:1px solid #dddddd">
+							<tr>
+								<th colspan=3 style="background-color:#d3d3d3; text-align:center;">상품 등록</th>
+							</tr>
+							<colgroup>
+								<col width="15%">
+								<col width="35%">
+								<col width="15%">
+								<col width="*">
+							</colgroup>
+							<tr>
+								<th>카테고리</th>
+								<td style="text-align:left;" colspan=2>
+									<span class="cateCode">${goods.cateCode}</span>
+								</td>
+							</tr>
+							<tbody id="twrite">
+								<tr>
+									<th>제품명</th>
+									<td colspan=2><span>${goods.gdsName}</span></td>
+								</tr>
+								<tr>
+									<th>가격</th>
+									<td colspan=2><span><fmt:formatNumber value="${goods.gdsPrice}" pattern="###,###,###"/>원</span></td>
+								</tr>
+								<tr>
+									<th>상품 수량</th>
+									<td colspan=2><span>${goods.gdsStock}개</span></td>
+								</tr>
+								<tr>
+									<th>상품 소개</th>
+									<td colspan=2><span>${goods.gdsDes}</span></td>
+								</tr>
+								<!--  
+								<tr>
+									<th>이미지<input type="file" id="gdsIms" name="gdsIms"></th>
+									<td colspan=2><div class="select_img"><img src=""/></div></td>
+								</tr>	
+								-->		
+								<tr>
+									<td colspan=3 style="text-align:center;">
+										<button type="submit" class="btn btn-warning" id="register_Btn">수정</button>
+										<button type="button" class="btn btn-danger" id="register_Btn">삭제</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>			
+				</div>
+			</div>
+			<!-- /.col-lg-9 -->
+		</div>
+   		<!-- /.row -->
+	</div>
+	<!-- /.container -->
 
-본문 영역
-</div>
-
-
-<footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-</footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/register.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
