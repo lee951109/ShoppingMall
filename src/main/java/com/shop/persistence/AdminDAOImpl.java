@@ -34,4 +34,17 @@ public class AdminDAOImpl implements AdminDAO {
 		return session.selectOne(namespace +".goodsDetail", gdsNum);
 	}
 
+	//상품 수정
+	@Override
+	public void goodsModify(GoodsVO vo) throws Exception {
+		session.update(namespace + ".goodsModify", vo);
+		
+	}
+
+	//상품 삭제
+	@Override
+	public void goodsDelete(int gdsNum) throws Exception {
+		session.delete(namespace + ".goodsDelete", gdsNum);
+	}
+
 }

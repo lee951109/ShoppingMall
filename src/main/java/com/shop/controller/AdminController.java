@@ -1,5 +1,6 @@
 package com.shop.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shop.domain.GoodsVO;
 import com.shop.service.AdminService;
+import com.shop.utile.UploadFileUtils;
 
 @Controller
 @RequestMapping("/admin/")
@@ -22,7 +25,7 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService service;
-	
+
 	//관리자 화면
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public void indexGET()throws Exception{
@@ -37,11 +40,48 @@ public class AdminController {
 	
 	//상품 등록 post
 	@RequestMapping(value = "/goods/register", method = RequestMethod.POST)
-	public String registerPOST(GoodsVO vo)throws Exception{
+	public String registerPOST(GoodsVO vo, MultipartFile file)throws Exception{
 		logger.info("post 상품 등록");
+		
+		logger.info("파일이름 : " + file.getOriginalFilename());
+		logger.info("파일크기 : " + file.getSize());
+		logger.info("컨텐트 타입 : " + file.getContentType());
+		
+		String uploadPath = "C:\\Users\\82108\\eclipse-workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\shoppingMall\\resources";
+		String imgUploadPath = uploadPath + File.separator + "imgUpload";  // 이미지를 업로드할 폴더를 설정 = /uploadPath/imgUpload 
+		String ymdPath = UploadFileUtils.calcPath(imgUploadPath);  // 위의 폴더를 기준으로 연월일 폴더를 생성
+		String fileName = null;  // 기본 경로와 별개로 작성되는 경로 + 파일이름
+				
+		if(file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
+			// 파일 인풋박스에 첨부된 파일이 없다면(=첨부된 파일이 이름이 없다면)
+			
+			fileName =  UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
+	
+			// gdsImg에 원본 파일 경로 + 파일명 저장
+			vo.setGdsImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+			// gdsThumbImg에 썸네일 파일 경로 + 썸네일 파일명 저장
+			vo.setGdsThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+			
+		} else {  // 첨부된 파일이 없으면
+			fileName = File.separator + "images" + File.separator + "none.png";
+			// 미리 준비된 none.png파일을 대신 출력함
+			
+			vo.setGdsImg(fileName);
+			vo.setGdsThumbImg(fileName);
+		}
+		
+		
+		System.out.println("=================");
+		
+		System.out.println("상품이름 = " + vo.getGdsName());
+		System.out.println("가격 = " + vo.getGdsPrice());
+		System.out.println("내용 = " + vo.getGdsDes());
+		System.out.println("이미지 = " + vo.getGdsImg());
+		System.out.println("=================");
+		
 		service.register(vo);
 		
-		return "redirect:/admin/index";
+		return "redirect:/admin/goods/list";
 	}
 	
 	//상품 목록
@@ -63,4 +103,34 @@ public class AdminController {
 		
 		model.addAttribute("goods", goods);
 	}
+	
+	//상품 수정 GET
+	@RequestMapping(value = "/goods/modify", method = RequestMethod.GET)
+	public void goodsModifyGET(@RequestParam("n")int gdsNum, Model model)throws Exception{
+		logger.info("get 상품 수정");
+		
+		GoodsVO goods = service.goodsDetail(gdsNum);
+		model.addAttribute("goods", goods);
+		
+	}
+	
+	//상품 수정 POST
+	@RequestMapping(value = "/goods/modify", method = RequestMethod.POST)
+	public String goodsModifyPOST(GoodsVO vo)throws Exception{
+		logger.info("POST 상품 수정");
+		
+		service.goodsModify(vo);
+		return "redirect:/admin/goods/list";
+	}
+	
+	//상품 삭제
+	@RequestMapping(value = "/goods/delete", method = RequestMethod.POST)
+	public String goodsDeletePOST(@RequestParam("n")int gdsNum)throws Exception{
+		logger.info("POST 상품 삭제");
+		
+		service.goodsDelete(gdsNum);
+		return "redirect:/admin/goods/list";
+	}
+	
+	
 }

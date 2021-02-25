@@ -8,8 +8,8 @@
 
 	<!-- 상품 등록 -->
 	<insert id="register">
-		insert into goods(gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes)
-		values(#{gdsNum}, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes})
+		insert into goods(gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsThumbImg)
+		values(#{gdsNum}, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes}, #{gdsImg}, #{gdsThumbImg})
 	</insert>
 	
 	<!-- 상품 목록 -->
@@ -21,9 +21,25 @@
 
 	<!-- 상품 조회 -->
 	<select id="goodsDetail" resultType="com.shop.domain.GoodsVO">
-		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate, gdsThumbImg
 		from goods
 		where gdsNum = #{gdsNum}
 	</select>
+
+	<!-- 상품 수정 -->
+	<update id="goodsModify">
+		update goods
+		set	gdsName = #{gdsName},
+			cateCode = #{cateCode},
+			gdsPrice = #{gdsPrice},
+			gdsStock = #{gdsStock},
+			gdsDes = #{gdsDes}
+		where gdsNum = #{gdsNum}
+	</update>
+	
+	<!-- 상품 삭제 -->
+	<delete id="goodsDelete">
+		delete from goods where gdsNum = #{gdsNum}
+	</delete>
 </mapper>
 

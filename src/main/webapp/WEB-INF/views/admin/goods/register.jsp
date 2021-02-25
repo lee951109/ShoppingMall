@@ -10,6 +10,8 @@
 <title>상품 등록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <style>
 footer {
   height: 100px;
@@ -98,7 +100,7 @@ footer {
 		<div class="col-lg-9">
 	   		<br>
 	   			<div id="carouselExampleIndicators">				
-					<form method="post" role="form" autocomplete="off">
+					<form method="post" role="form" autocomplete="off" enctype="multipart/form-data">
 						<table class="table" style="border:1px solid #dddddd">
 							<tr>
 								<th colspan=3 style="background-color:#d3d3d3; text-align:center;">상품 등록</th>
@@ -134,29 +136,29 @@ footer {
 							<tbody id="twrite">
 								<tr>
 									<th>제품명</th>
-									<td colspan=2><input id="gdsName" name="gdsName" value=""  class="tbox" size="80" maxlength="30" /></td>
+									<td colspan=2><input id="gdsName" name="gdsName" class="tbox" size="80" maxlength="30" /></td>
 								</tr>
 								<tr>
 									<th>가격</th>
-									<td colspan=2><input id="gdsPrice" name="gdsPrice" value="" class="tbox" size="80" maxlength="30" /></td>
+									<td colspan=2><input id="gdsPrice" name="gdsPrice" class="tbox" size="80" maxlength="30" /></td>
 								</tr>
 								<tr>
 									<th>상품 수량</th>
-									<td colspan=2><input id="gdsStock" name="gdsStock" value="" class="tbox" size="80" maxlength="30" /></td>
+									<td colspan=2><input id="gdsStock" name="gdsStock" class="tbox" size="80" maxlength="30" /></td>
 								</tr>
 								<tr>
 									<th>상품 소개</th>
 									<td colspan=2><textarea id="gdsDes" name="gdsDes" cols="83" rows="10" maxlength="2048" class="tbox"/></textarea></td>
 								</tr>
-								<!--  
 								<tr>
-									<th>이미지<input type="file" id="gdsIms" name="gdsIms"></th>
-									<td colspan=2><div class="select_img"><img src=""/></div></td>
-								</tr>	
-								-->		
+									<th>이미지<input type="file" name="file" id="gdsImg"></th>
+									<td colspan=2>
+										<div class="select_img"><img src=""/></div>
+										<%=request.getRealPath("/") %>
+									</td>
+								</tr>			
 								<tr>
 									<td colspan=3 style="text-align:center;">
-										<button type="button" class="btn btn-dark" onclick="javascript:bbsList();">목록</button>
 										<button type="submit" class="btn btn-dark" id="register_Btn">등록</button>
 									</td>
 								</tr>
@@ -170,9 +172,18 @@ footer {
    		<!-- /.row -->
 	</div>
 	<!-- /.container -->
+<script>
+  $("#gdsImg").change(function(){
+   if(this.files && this.files[0]) {
+    var reader = new FileReader;
+    reader.onload = function(data) {
+     $(".select_img img").attr("src", data.target.result).width(500);        
+    }
+    reader.readAsDataURL(this.files[0]);
+   }
+  });
+ </script>
 
-  <script src="${pageContext.request.contextPath}/resources/js/register.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

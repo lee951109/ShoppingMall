@@ -31,5 +31,14 @@ public class AdminServiceImpl implements AdminService {
 	public GoodsVO goodsDetail(int gdsNum) throws Exception {
 		return dao.goodsDetail(gdsNum);
 	}
+	//상품 수정
+	@Override
+	public void goodsModify(GoodsVO vo) throws Exception {	
+		dao.goodsModify(vo);
+	}
+	@Override
+	public void goodsDelete(int gdsNum) throws Exception {
+		dao.goodsDelete(gdsNum);
+	}
 
 }

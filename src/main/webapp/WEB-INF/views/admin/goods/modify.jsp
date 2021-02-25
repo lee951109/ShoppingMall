@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,19 +10,13 @@
 <title>상품 등록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 footer {
   height: 100px;
   margin-top: -100px;
   background-color: gray;
  }
- .oriImg{
- 	width: 500px;
- 	height:auto;
- }
-
 </style>
 </head>
 
@@ -75,7 +69,7 @@ footer {
       </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="/admin/goods/register">무기 등록</a>
-        <a class="dropdown-item" href="#">무기 목록</a>
+        <a class="dropdown-item" href="/admin/goods/list">무기 목록</a>
         <a class="dropdown-item" href="#">상품 소감</a>
         <a class="dropdown-item" href="#">유저 목록</a>
       </div>
@@ -108,9 +102,7 @@ footer {
 					<form method="post" role="form" autocomplete="off">
 						<table class="table" style="border:1px solid #dddddd">
 							<tr>
-								<th colspan=3 style="background-color:#d3d3d3; text-align:center;">상품 등록
-									<input type="hidden" name="n" value="${goods.gdsNum}"/>	
-								</th>
+								<th colspan=3 style="background-color:#d3d3d3; text-align:center;">상품 등록</th>
 							</tr>
 							<colgroup>
 								<col width="15%">
@@ -121,57 +113,62 @@ footer {
 							<tr>
 								<th>카테고리</th>
 								<td style="text-align:left;" colspan=2>
-									<span class="cateCode">${goods.cateCode}</span>
+									<select name="cateCode">
+										<option value="none">=== 선택 ===</option>
+										<option disabled>=== 무기 ===</option>
+										<option value="101">돌격소총(AR)</option>
+										<option value="102">기관단총(SMG)</option>
+										<option value="103">산탄총(SG)</option>
+										<option value="104">소총(DMR)</option>
+										<option value="105">저격총(SR)</option>
+										<option disabled>=== 탄 ===</option>
+										<option value="201">5.56mm</option>
+										<option value="202">7.62mm</option>
+										<option value="203">9mm</option>
+										<option disabled>=== 방탄구 ===</option>
+										<option value="301">방탄헬멧</option>
+										<option value="302">방탄조끼</option>
+										<option value="303">전술가방</option>
+									</select>
 								</td>
+								<input type="hidden" name="gdsNum" value="${goods.gdsNum}"/>
 							</tr>
 							<tbody id="twrite">
 								<tr>
 									<th>제품명</th>
-									<td colspan=2><span>${goods.gdsName}</span></td>
-								</tr>
-								<tr>
-									<th>이미지</th>
-									<td colspan=2><img src="${goods.gdsImg}" class="oriImg"/></td>
-								</tr>
-								<tr>
-									<th>썸네일</th>
-									<td colspan=2><img src="${goods.gdsThumbImg}" class="thumbImg" /></td>
+									<td colspan=2><input id="gdsName" name="gdsName" value="${goods.gdsName}"  class="tbox" size="80" maxlength="30" /></td>
 								</tr>
 								<tr>
 									<th>가격</th>
-									<td colspan=2><span><fmt:formatNumber value="${goods.gdsPrice}" pattern="###,###,###"/>원</span></td>
+									<td colspan=2><input id="gdsPrice" name="gdsPrice" value="${goods.gdsPrice}" class="tbox" size="80" maxlength="30" /></td>
 								</tr>
 								<tr>
 									<th>상품 수량</th>
-									<td colspan=2><span>${goods.gdsStock}개</span></td>
+									<td colspan=2><input id="gdsStock" name="gdsStock" value="${goods.gdsStock}" class="tbox" size="80" maxlength="30" /></td>
 								</tr>
 								<tr>
 									<th>상품 소개</th>
-									<td colspan=2><span>${goods.gdsDes}</span></td>
-								</tr>  		
+									<td colspan=2><textarea id="gdsDes" name="gdsDes" vale="${goods.gdsDes}" cols="83" rows="10" maxlength="2048" class="tbox"/></textarea></td>
+								</tr>
+								<!--  
+								<tr>
+									<th>이미지<input type="file" id="gdsIms" name="gdsIms"></th>
+									<td colspan=2><div class="select_img"><img src=""/></div></td>
+								</tr>	
+								-->		
 								<tr>
 									<td colspan=3 style="text-align:center;">
-										<button type="button" class="btn btn-warning" id="modify_Btn">수정</button>
-										<button type="button" class="btn btn-danger" id="delete_Btn">삭제</button>
+										<button type="submit" class="btn btn-primary" id="update_Btn">완료</button>
+										<button type="submit" class="btn btn-warning" id="back_Btn">취소</button>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						<script>
-							var formObj = $("form[role = 'form']");
-							
-							$("#modify_Btn").click(function(){
-								formObj.attr("action", "/admin/goods/modify");
-								formObj.attr("method","get");
-								formObj.submit();
-							});
-							$("#delete_Btn").click(function(){
-								var con = confirm("정말로 삭제하시겠습니까?");
-								if(con){
-									formObj.attr("action", "/admin/goods/delete");
-									formObj.submit();
-								}
-							});
+							$("#back_Btn").click(function(){
+								//history.back();
+								location.href = "/admin/goods/view?n=" +${goods.gdsNum};
+							})
 						</script>
 					</form>			
 				</div>
@@ -181,7 +178,6 @@ footer {
    		<!-- /.row -->
 	</div>
 	<!-- /.container -->
-
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
