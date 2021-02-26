@@ -4,6 +4,10 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 	
 <configuration>
-
+<typeAliases>
+		<typeAlias type="com.shop.domain.CategoryVO" alias="CategoryVO" />
+		<typeAlias type="com.shop.domain.GoodsVO" alias="GoodsVO" />
+		<typeAlias type="com.shop.domain.MemberVO" alias="MemberVO" />
+	</typeAliases>
 
 </configuration>

@@ -10,13 +10,19 @@
 <title>상품 등록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- CK에디터 -->
+<script src="/resources/ckeditor/ckeditor.js"></script>
 
 <style>
 footer {
   height: 100px;
   margin-top: -100px;
   background-color: gray;
+ }
+ .select_img img{
+ 	width:500px;
+ 	margin:20px 0;
  }
 </style>
 </head>
@@ -156,7 +162,7 @@ footer {
 										<div class="select_img"><img src=""/></div>
 										<%=request.getRealPath("/") %>
 									</td>
-								</tr>			
+								</tr>		
 								<tr>
 									<td colspan=3 style="text-align:center;">
 										<button type="submit" class="btn btn-dark" id="register_Btn">등록</button>
@@ -182,6 +188,26 @@ footer {
     reader.readAsDataURL(this.files[0]);
    }
   });
+  //CK에디터
+  var ckeditor_config = {
+		  resize_enaleb : false,
+		  enterMode : CKEDITOR.ENTER_BR,
+		  shiftEnterMode : CKEDITOR.ENTER_P,
+		  filebrowserUploadUrl : "/admin/goods/ckUpload"
+  		};
+  	CKEDITOR.replace("gdsDes", ckeditor_config);
+  	
+  	var regExp = /[^0-9]/gi; //숫자만 허용하는 정규 표현식
+  	$("#gdsPrice").keyup(function(){
+  		numCheck($(this));
+  	});
+  	$("#gdsStock").keyup(function(){
+  		numCheck($(this));
+  	});
+  	function numCheck(selector){
+  		var tempVal = selector.val();
+  		selector.val(tempVal.replace(regExp,""));
+  	}
  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

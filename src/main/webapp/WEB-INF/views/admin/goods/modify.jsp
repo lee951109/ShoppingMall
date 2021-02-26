@@ -10,7 +10,10 @@
 <title>상품 등록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- CK에디터 -->
+<script src="/resources/ckeditor/ckeditor.js"></script>
+
 <style>
 footer {
   height: 100px;
@@ -99,7 +102,7 @@ footer {
 		<div class="col-lg-9">
 	   		<br>
 	   			<div id="carouselExampleIndicators">				
-					<form method="post" role="form" autocomplete="off">
+					<form method="post" role="form" autocomplete="off" enctype="multipart/form-data">
 						<table class="table" style="border:1px solid #dddddd">
 							<tr>
 								<th colspan=3 style="background-color:#d3d3d3; text-align:center;">상품 등록</th>
@@ -148,14 +151,18 @@ footer {
 								</tr>
 								<tr>
 									<th>상품 소개</th>
-									<td colspan=2><textarea id="gdsDes" name="gdsDes" vale="${goods.gdsDes}" cols="83" rows="10" maxlength="2048" class="tbox"/></textarea></td>
+									<td colspan=2><textarea id="gdsDes" name="gdsDes" cols="83" rows="10" maxlength="2048" class="tbox">${goods.gdsDes}</textarea></td>
 								</tr>
-								<!--  
 								<tr>
-									<th>이미지<input type="file" id="gdsIms" name="gdsIms"></th>
-									<td colspan=2><div class="select_img"><img src=""/></div></td>
-								</tr>	
-								-->		
+									<th>이미지<input type="file" id="gdsIms" name="file"></th>
+									<td colspan=2>
+										<div class="select_img"><img src="${goods.gdsImg}"/></div>
+										<input type="hidden" name="gdsImg" value="${goods.gdsImg}"/>
+										<input type="hidden" name="gdsThumbImg" value="${goods.gdsThumbImg}"/>
+										<%=request.getRealPath("/") %>
+									</td>
+									
+								</tr>		
 								<tr>
 									<td colspan=3 style="text-align:center;">
 										<button type="submit" class="btn btn-primary" id="update_Btn">완료</button>
@@ -168,7 +175,37 @@ footer {
 							$("#back_Btn").click(function(){
 								//history.back();
 								location.href = "/admin/goods/view?n=" +${goods.gdsNum};
-							})
+							});
+								//이미지 미리보기
+							 $("#gdsImg").change(function(){
+								   if(this.files && this.files[0]) {
+								    var reader = new FileReader;
+								    reader.onload = function(data) {
+								     $(".select_img img").attr("src", data.target.result).width(500);        
+								    }
+								    reader.readAsDataURL(this.files[0]);
+								   }
+								  });
+							 //CK에디터
+							  var ckeditor_config = {
+									  resize_enaleb : false,
+									  enterMode : CKEDITOR.ENTER_BR,
+									  shiftEnterMode : CKEDITOR.ENTER_P,
+									  filebrowserUploadUrl : "/admin/goods/ckUpload"
+							  		};
+							  	CKEDITOR.replace("gdsDes", ckeditor_config);
+							  	
+								var regExp = /[^0-9]/gi; //숫자만 허용하는 정규 표현식
+							  	$("#gdsPrice").keyup(function(){
+							  		numCheck($(this));
+							  	});
+							  	$("#gdsStock").keyup(function(){
+							  		numCheck($(this));
+							  	});
+							  	function numCheck(selector){
+							  		var tempVal = selector.val();
+							  		selector.val(tempVal.replace(regExp,""));
+							  	}
 						</script>
 					</form>			
 				</div>

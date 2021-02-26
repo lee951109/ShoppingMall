@@ -6,23 +6,53 @@
 
 <mapper namespace="com.shop.mappers.adminMapper">
 
+<resultMap type="GoodsVO" id="GoodsMap">
+	<id column="gdsNum" property="gdsNum" />
+	<result column="gdsName" property="gdsName" />
+	<result column="cateCode" property="cateCode" />
+	<result column="gdsPrice" property="gdsPrice" />
+	<result column="gdsStock" property="gdsStock" />
+	<result column="gdsDes" property="gdsDes" />
+	<result column="gdsImg" property="gdsImg" />
+	<result column="gdsDate" property="gdsDate" />
+	<result column="gdsThumbImg" property="gdsThumbImg" />
+</resultMap>
+
+<resultMap type="CategoryVO" id="CategoryMap">
+	<id column="cateCode" property="cateCode" />
+	<result column="cateName" property="cateName" />
+	<result column="cateCodeRef" property="cateCodeRef" />
+</resultMap>
+
 	<!-- 상품 등록 -->
 	<insert id="register">
 		insert into goods(gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsThumbImg)
 		values(#{gdsNum}, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes}, #{gdsImg}, #{gdsThumbImg})
 	</insert>
 	
-	<!-- 상품 목록 -->
+	<!-- 상품 목록 
 	<select id="goodslist" resultType="com.shop.domain.GoodsVO">
 		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
 		from goods
 		order by gdsNum desc 
+	</select>-->
+	
+
+	<!-- 상품 목록 -->
+	<select id="goodslist" parameterType="GoodsVO" resultMap="GoodsMap">
+		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsThumbImg,
+				c.cateCode, c.cateName
+		FROM goods g JOIN goods_category c
+		ON g.cateCode = c.cateCode
+		ORDER BY g.gdsNum desc
 	</select>
 
 	<!-- 상품 조회 -->
-	<select id="goodsDetail" resultType="com.shop.domain.GoodsVO">
-		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate, gdsThumbImg
-		from goods
+	<select id="goodsDetail"  parameterType="GoodsVO" resultMap="GoodsMap">
+		select g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDes, g.gdsImg, g.gdsDate, g.gdsThumbImg,
+				c.cateCode, c.cateName
+		from goods g JOIN goods_category c
+		ON g.cateCode = c.cateCode
 		where gdsNum = #{gdsNum}
 	</select>
 
@@ -33,7 +63,9 @@
 			cateCode = #{cateCode},
 			gdsPrice = #{gdsPrice},
 			gdsStock = #{gdsStock},
-			gdsDes = #{gdsDes}
+			gdsDes = #{gdsDes},
+			gdsImg = #{gdsImg},
+			gdsThumbImg = #{gdsThumbImg}
 		where gdsNum = #{gdsNum}
 	</update>
 	

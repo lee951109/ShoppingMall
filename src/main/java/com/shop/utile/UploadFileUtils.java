@@ -16,13 +16,13 @@ public class UploadFileUtils {
 	
 	public static String fileUpload(String uploadPath,
 									String fileName, 
-									byte[] fileData, String ymdPath) throws Exception {
+									byte[] fileData, String ymPath) throws Exception {
 
 		// 랜덤문자 생성
 		UUID uid = UUID.randomUUID();
 		
 		String newFileName = uid + "_" + fileName;  // "랜덤문자_파일명"
-		String imgPath = uploadPath + ymdPath;  // 업로드 경로 + 연월일 경로 = 이미지 저장 경로
+		String imgPath = uploadPath + ymPath;  // 업로드 경로 + 연월일 경로 = 이미지 저장 경로
 
 		// 이미지 저장 경로에 원본 파일을 저장
 		File target = new File(imgPath, newFileName);
@@ -57,16 +57,13 @@ public class UploadFileUtils {
 		// 단, 1월은 캘린더상에서 0이므로, +1을 해줌
 		String monthPath = yearPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
 		
-		// 캘린더에서 날짜만 추출
-		String datePath = monthPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.DATE));
-
 		// 원본 이미지가 저장될 경로 생성
-		makeDir(uploadPath, yearPath, monthPath, datePath);
+		makeDir(uploadPath, yearPath, monthPath);
 		
 		// 썸네일 이미지가 저장될 경로 생성
-		makeDir(uploadPath, yearPath, monthPath, datePath + "\\s");
+		makeDir(uploadPath, yearPath, monthPath + "\\s");
 
-		return datePath;
+		return monthPath;
 	}
 
 	private static void makeDir(String uploadPath, String... paths) {

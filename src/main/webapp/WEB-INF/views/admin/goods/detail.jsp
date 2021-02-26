@@ -121,7 +121,7 @@ footer {
 							<tr>
 								<th>카테고리</th>
 								<td style="text-align:left;" colspan=2>
-									<span class="cateCode">${goods.cateCode}</span>
+									<span class="cateCode">${goods.cateName}</span>
 								</td>
 							</tr>
 							<tbody id="twrite">

@@ -17,7 +17,7 @@
 	</select>
 	
 	<!-- 로그인 -->
-	<select id="login" resultType="com.shop.domain.MemberVO">
+	<select id="login" resultType="MemberVO">
 		select 
 			userId, userPass, userName, email, phone, address1, address2, address3, regDate, varify
 		from

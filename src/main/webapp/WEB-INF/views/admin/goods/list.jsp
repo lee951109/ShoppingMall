@@ -9,10 +9,23 @@
 <title>무기 목록</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
-#container_box table td{
-	width:100px;
+#container_box table{
+	width:900px;
+	margin-left:auto;
+	margin-right:auto;
 }
+#container_box table th{
+	font-size:20px;
+	font-weight:bold;
+	text-align:center;
+	padding:10px;
+	border-bottom:2px solid #666;
+}
+#container_box table tr:hover{background:#eee;}
+#container_box table td{padding:10px; text-align:center;}
+#container_box table img{width:150px; height:auto;}
 </style>
 </head>
 
@@ -96,6 +109,7 @@
 			<thead>
 				<tr>
 					<th>번호</th>
+					<th>상품이미지</th>
 					<th>상품명</th>
 					<th>카테고리</th>
 					<th>가격</th>
@@ -107,10 +121,11 @@
 				<c:forEach items="${list}" var="list">
 					<tr>
 						<td>${list.gdsNum}</td>
+						<td><img src="${list.gdsThumbImg}"></td>
 						<td>
 							<a href="/admin/goods/detail?n=${list.gdsNum}">${list.gdsName}</a>
 						</td>
-						<td>${list.cateCode}</td>
+						<td>${list.cateName}</td>
 						<td>
 							<fmt:formatNumber value="${list.gdsPrice}" pattern="###,###,###"/>원
 						</td>
@@ -126,7 +141,6 @@
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
