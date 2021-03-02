@@ -41,35 +41,35 @@
   <ul class="navbar-nav">
   <!-- Dropdown -->
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+      <a class="nav-link dropdown-toggle" href="/list?c=100&l=1" id="navbardrop" data-toggle="dropdown">
         무기(Weapon)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">돌격소총(AR)</a>
-        <a class="dropdown-item" href="#">기관단총(SMG)</a>
-        <a class="dropdown-item" href="#">산탄총(SG)</a>
-        <a class="dropdown-item" href="#">소총(DMR)</a>
-        <a class="dropdown-item" href="#">저격총(SR)</a>
+        <a class="dropdown-item" href="/list?c=101&l=2">돌격소총(AR)</a>
+        <a class="dropdown-item" href="/list?c=102&l=2">기관단총(SMG)</a>
+        <a class="dropdown-item" href="/list?c=103&l=2">산탄총(SG)</a>
+        <a class="dropdown-item" href="/list?c=104&l=2">소총(DMR)</a>
+        <a class="dropdown-item" href="/list?c=105&l=2">저격총(SR)</a>
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+      <a class="nav-link dropdown-toggle" href="/list?c=200&l=1" id="navbardrop" data-toggle="dropdown">
         탄(Bullet)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">5.56mm</a>
-        <a class="dropdown-item" href="#">7.62mm</a>
-        <a class="dropdown-item" href="#">9mm</a>
+        <a class="dropdown-item" href="/list?c=201&l=2">5.56mm</a>
+        <a class="dropdown-item" href="/list?c=202&l=2">7.62mm</a>
+        <a class="dropdown-item" href="/list?c=203&l=2">9mm</a>
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+      <a class="nav-link dropdown-toggle" href="/list?c=300&l=1" id="navbardrop" data-toggle="dropdown">
         방탄구(Armor)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">방탄헬멧(Helmet)</a>
-        <a class="dropdown-item" href="#">방탄조끼(Jacket)</a>
-        <a class="dropdown-item" href="#">전술가방(Backpack)</a>
+        <a class="dropdown-item" href="/list?c=301&l=2">방탄헬멧(Helmet)</a>
+        <a class="dropdown-item" href="/list?c=302&l=2">방탄조끼(Jacket)</a>
+        <a class="dropdown-item" href="/list?c=303&l=2">전술가방(Backpack)</a>
       </div>
     </li>
      <li class="nav-item dropdown">

@@ -38,36 +38,36 @@ footer {
   <a class="navbar-brand" href="#">Logo</a>
   <ul class="navbar-nav">
   <!-- Dropdown -->
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="search" id="navbardrop" data-toggle="dropdown">
+   <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="/list?c=100&l=1" id="navbardrop" data-toggle="dropdown">
         무기(Weapon)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">돌격소총(AR)</a>
-        <a class="dropdown-item" href="#">기관단총(SMG)</a>
-        <a class="dropdown-item" href="#">산탄총(SG)</a>
-        <a class="dropdown-item" href="#">소총(DMR)</a>
-        <a class="dropdown-item" href="#">저격총(SR)</a>
+        <a class="dropdown-item" href="/list?c=101&l=2">돌격소총(AR)</a>
+        <a class="dropdown-item" href="/list?c=102&l=2">기관단총(SMG)</a>
+        <a class="dropdown-item" href="/list?c=103&l=2">산탄총(SG)</a>
+        <a class="dropdown-item" href="/list?c=104&l=2">소총(DMR)</a>
+        <a class="dropdown-item" href="/list?c=105&l=2">저격총(SR)</a>
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+      <a class="nav-link dropdown-toggle" href="/list?c=200&l=1" id="navbardrop" data-toggle="dropdown">
         탄(Bullet)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">5.56mm</a>
-        <a class="dropdown-item" href="#">7.62mm</a>
-        <a class="dropdown-item" href="#">9mm</a>
+        <a class="dropdown-item" href="/list?c=201&l=2">5.56mm</a>
+        <a class="dropdown-item" href="/list?c=202&l=2">7.62mm</a>
+        <a class="dropdown-item" href="/list?c=203&l=2">9mm</a>
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+      <a class="nav-link dropdown-toggle" href="/list?c=300&l=1" id="navbardrop" data-toggle="dropdown">
         방탄구(Armor)
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">방탄헬멧(Helmet)</a>
-        <a class="dropdown-item" href="#">방탄조끼(Jacket)</a>
-        <a class="dropdown-item" href="#">전술가방(Backpack)</a>
+        <a class="dropdown-item" href="/list?c=301&l=2">방탄헬멧(Helmet)</a>
+        <a class="dropdown-item" href="/list?c=302&l=2">방탄조끼(Jacket)</a>
+        <a class="dropdown-item" href="/list?c=303&l=2">전술가방(Backpack)</a>
       </div>
     </li>
      <li class="nav-item dropdown">
@@ -119,23 +119,14 @@ footer {
 							</colgroup>
 							<tr>
 								<th>카테고리</th>
-								<td style="text-align:left;" colspan=2>
-									<select name="cateCode">
-										<option value="none">=== 선택 ===</option>
-										<option disabled>=== 무기 ===</option>
-										<option value="101">돌격소총(AR)</option>
-										<option value="102">기관단총(SMG)</option>
-										<option value="103">산탄총(SG)</option>
-										<option value="104">소총(DMR)</option>
-										<option value="105">저격총(SR)</option>
-										<option disabled>=== 탄 ===</option>
-										<option value="201">5.56mm</option>
-										<option value="202">7.62mm</option>
-										<option value="203">9mm</option>
-										<option disabled>=== 방탄구 ===</option>
-										<option value="301">방탄헬멧</option>
-										<option value="302">방탄조끼</option>
-										<option value="303">전술가방</option>
+								<td colspan=2>
+									<label>1차 분류</label>
+									<select class="category1">
+										<option value="">전체</option>
+									</select>
+									<label>2차 분류</label>
+									<select class="category2" name="cateCode">
+										<option value="">전체</option>
 									</select>
 								</td>
 							</tr>
@@ -178,7 +169,10 @@ footer {
    		<!-- /.row -->
 	</div>
 	<!-- /.container -->
+	
+
 <script>
+	//썸네일 보여죽;
   $("#gdsImg").change(function(){
    if(this.files && this.files[0]) {
     var reader = new FileReader;
@@ -188,6 +182,8 @@ footer {
     reader.readAsDataURL(this.files[0]);
    }
   });
+  
+  
   //CK에디터
   var ckeditor_config = {
 		  resize_enaleb : false,
@@ -197,6 +193,7 @@ footer {
   		};
   	CKEDITOR.replace("gdsDes", ckeditor_config);
   	
+  	//price, stock에 숫자만 입력 가능하게 하는 함수
   	var regExp = /[^0-9]/gi; //숫자만 허용하는 정규 표현식
   	$("#gdsPrice").keyup(function(){
   		numCheck($(this));
@@ -208,6 +205,83 @@ footer {
   		var tempVal = selector.val();
   		selector.val(tempVal.replace(regExp,""));
   	}
+  	
+  	
+  	
+  //컨트롤러에서 데이터 받기 (category)
+	var jsonData = JSON.parse('${category}'); //parse 메소드는 string객체를 json객체로 변환시켜준다
+	console.log(jsonData);
+	
+	//필요한 배열과 오브젝트 변수 생성
+	var cate1Arr = new Array();
+	var cate1Obj = new Object();
+
+	// 1차 분류 셀렉트 박스에 삽입할 데이터 준비
+	for(var i = 0; i < jsonData.length; i++) {
+ 
+ 		if(jsonData[i].level == "1") { //레벨이 1인 데이터가 있다면
+  			cate1Obj = new Object();  //초기화
+  			
+  			//cate1Obj에 cateCode와 cateName을 저장
+  			cate1Obj.cateCode = jsonData[i].cateCode;
+  			cate1Obj.cateName = jsonData[i].cateName;
+  			
+  			//cate1Obj에 저장된 값을 cate1Arr 배열에 저장
+ 			cate1Arr.push(cate1Obj);
+ 		}
+	}
+
+	// 1차 분류 셀렉트 박스에 데이터 삽입
+	var cate1Select = $("select.category1")
+
+	for(var i = 0; i < cate1Arr.length; i++) {
+		//cate1Arr에 저장된 값을 cate1Select에 추가(append를 사용하여 콘텐츠를 추가함)
+ 		cate1Select.append("<option value='" + cate1Arr[i].cateCode + "'>"
+      		+ cate1Arr[i].cateName + "</option>"); 
+	}
+	
+	//클래스가 category1인 select변수의 값이 변경됐을 때 실행
+	$(document).on("change", "select.category1", function(){ //select.category1이 변경되면 실행
+		
+		 //필요한 배열과 오브젝트 변수를 생성
+		 var cate2Arr = new Array();
+		 var cate2Obj = new Object();
+		 
+		 // 2차 분류 셀렉트 박스에 삽입할 데이터 준비
+		 for(var i = 0; i < jsonData.length; i++) {
+		  
+		  if(jsonData[i].level == "2") {//레벨 2인 데이터가 있다면
+		   cate2Obj = new Object();  //초기화
+		   //cate2Obj에 cateCode,cateName,cateCodeRef를 저장
+		   cate2Obj.cateCode = jsonData[i].cateCode;
+		   cate2Obj.cateName = jsonData[i].cateName;
+		   cate2Obj.cateCodeRef = jsonData[i].cateCodeRef;
+		   //cate2Obj에 저장된 값을 cate2Arr 배열에 저장
+		   cate2Arr.push(cate2Obj);
+		  }
+		 }
+		 
+		 var cate2Select = $("select.category2");
+		 //cate2Select의 값을 제거함(초기화)
+		 cate2Select.children().remove();
+		 
+		 //cate1Select에서 선택한 값을 기준으로 cate2Select의 값을 조정
+		 $("option:selected", this).each(function(){
+		  
+		  var selectVal = $(this).val(); // 현재 선택한 cateSelect의 값을 저장
+		  cate2Select.append("<option value='"+ selectVal + "'>전체</option>");// cate2Select의 '전체'에 현재 선택한 cate1Select와 같은 값 부여
+		  								//selectVal은 '현재 선택한 1차 분류의 코드' 이므로 2차 분류의 기본선택지인 '전체'에도 같은코드가 적용됨
+		  //cate2Arr의 데이터를 cate2Select에 추가
+		  for(var i = 0; i < cate2Arr.length; i++) {
+			  //현재 선택한 cateSelect의 값과 일치하는 cate2Arr의 데이터를 가져옴
+		   if(selectVal == cate2Arr[i].cateCodeRef) {
+		    cate2Select.append("<option value='" + cate2Arr[i].cateCode + "'>"
+		         + cate2Arr[i].cateName + "</option>");
+		   }
+		  }
+		});
+	});
+	
  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

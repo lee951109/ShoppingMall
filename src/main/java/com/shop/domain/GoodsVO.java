@@ -9,7 +9,7 @@ public class GoodsVO extends CategoryVO{
 
 	private int gdsNum;				//상품 번호
 	private String gdsName;			//상품 이름
-	private String cateCode;		//상품 분류
+	private int cateCode;			//상품 분류
 	private int gdsPrice;			//상품 가격
 	private int gdsStock;			//상품 수량
 	private String gdsDes;			//상품 설명

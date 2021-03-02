@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shop.domain.CategoryVO;
 import com.shop.domain.GoodsVO;
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -14,6 +15,11 @@ public class AdminDAOImpl implements AdminDAO {
 	@Autowired
 	private SqlSession session;
 	
+	//카테고리
+	@Override
+	public List<CategoryVO> category() throws Exception {
+		return session.selectList(namespace + ".category");
+	}
 	
 	//상품 등록
 	@Override
@@ -46,5 +52,6 @@ public class AdminDAOImpl implements AdminDAO {
 	public void goodsDelete(int gdsNum) throws Exception {
 		session.delete(namespace + ".goodsDelete", gdsNum);
 	}
+
 
 }

@@ -1,14 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 페이지</title>
+<title>미정</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
+	 section#content ul li { display:inline-block; margin:10px; }
+	 section#content div.goodsThumb img { width:200px; height:200px; }
+	 section#content div.goodsName { padding:10px 0; text-align:center; }
+ 	 section#content div.goodsName a { color:#000; }
+ 	 
 .dropdown:hover .dropdown-menu {
     display: block;
     margin-top: 0;
@@ -19,15 +25,16 @@
 <body>
 <div class="container-fluid">
   <br>
-  <h3>관리자 페이지 입니다.</h3>
- 
+  <h3>Sticky Navbar</h3>
+  <p>A sticky navigation bar stays fixed at the top of the page when you scroll past it.</p>
+  <p>Scroll this page to see the effect. <strong>Note:</strong> sticky-top does not work in IE11 and earlier.</p>
 </div>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
   <a class="navbar-brand" href="#">Logo</a>
   <ul class="navbar-nav">
   <!-- Dropdown -->
-   <li class="nav-item dropdown">
+    <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="/list?c=100&l=1" id="navbardrop" data-toggle="dropdown">
         무기(Weapon)
       </a>
@@ -59,17 +66,6 @@
         <a class="dropdown-item" href="/list?c=303&l=2">전술가방(Backpack)</a>
       </div>
     </li>
-     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        Admin
-      </a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="/admin/goods/register">무기 등록</a>
-        <a class="dropdown-item" href="/admin/goods/list">무기 목록</a>
-        <a class="dropdown-item" href="#">상품 소감</a>
-        <a class="dropdown-item" href="#">유저 목록</a>
-      </div>
-    </li>
   </ul>
   <ul class="nav navbar-nav ml-auto">
    <form class="form-inline my-2 my-lg-0" action="#">
@@ -78,7 +74,20 @@
   </form>
   </ul>
   <ul class="nav navbar-nav ml-auto">
+  <c:if test="${member == null}">
+    <li class="nav-item">
+      <a class="nav-link" href="/member/login">로그인</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/member/join">회원가입</a>
+    </li>
+    </c:if>
     <c:if test="${member != null}">
+    	<c:if test="${member.varify == 1}">
+    		<li class="nav-item">
+    			<a class="nav-link" href="/admin/index">관리자 페이지</a>
+    		</li>
+    	</c:if>
     <li class="nav-item">
     	<a class="nav-link" href="/member/logout">로그아웃</a>
     </li>
@@ -89,22 +98,24 @@
   </ul>
 </nav>
 
-<!-- 바디 영역! -->
-<div class="container-fluid">
+<section id="container">
+	<div id="container_box">
+		<section id="content">
+			<ul>
+				<c:forEach items="${list}" var="list">
+					<li>
+						<div class="goodsThumb">
+							<img src="${list.gdsThumbImg}">
+						</div>
+						<div class="goodsName">
+							<a href="/detail?n=${list.gdsNum}">${list.gdsName}</a>
+						</div>
+					</li>
+				</c:forEach>
+			</ul>
+		</section>
+	</div>
+</section>
 
-본문 영역
-</div>
-
-
-<footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-</footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

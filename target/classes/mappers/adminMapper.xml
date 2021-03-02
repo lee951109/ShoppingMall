@@ -24,6 +24,19 @@
 	<result column="cateCodeRef" property="cateCodeRef" />
 </resultMap>
 
+	<!-- 카테고리 호출 -->
+	<select id="category" resultType="com.shop.domain.CategoryVO">
+		WITH recursive cte AS(
+		SELECT cateName, cateCode, cateCodeRef, 1 AS level
+		FROM goods_category WHERE cateCodeRef IS null
+		UNION ALL	
+		SELECT p.cateName, p.cateCode, p.cateCodeRef, 1 + LEVEL as level
+		FROM goods_category p INNER JOIN cte
+		ON p.cateCodeRef = cte.cateCode
+		)	
+		SELECT cateName, cateCode, cateCodeRef, LEVEL FROM cte
+	</select>
+
 	<!-- 상품 등록 -->
 	<insert id="register">
 		insert into goods(gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsThumbImg)

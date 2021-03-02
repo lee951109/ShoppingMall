@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shop.domain.CategoryVO;
 import com.shop.domain.GoodsVO;
 import com.shop.persistence.AdminDAO;
 
@@ -14,6 +15,11 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminDAO dao;
 	
+	//카테고리
+	@Override
+	public List<CategoryVO> category() throws Exception {
+		return dao.category();
+	}
 	//상품등록
 	@Override
 	public void register(GoodsVO vo) throws Exception {
@@ -40,5 +46,6 @@ public class AdminServiceImpl implements AdminService {
 	public void goodsDelete(int gdsNum) throws Exception {
 		dao.goodsDelete(gdsNum);
 	}
+
 
 }

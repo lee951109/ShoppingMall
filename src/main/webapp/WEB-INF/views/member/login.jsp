@@ -23,9 +23,7 @@
       <input type="password" id="userPass" name="userPass" class="form-control" placeholder="비밀번호를 입력해주세요." required>
       </div>
       <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> 로그인 유지하기
-        </label>
+        
       </div>
       <div class=" col-lg-4"  style="margin-left:auto; margin-right:auto;">
       <button class="btn btn-lg btn-dark btn-block" type="submit">로그인</button>

@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shop.domain.CategoryVO;
 import com.shop.domain.GoodsVO;
 import com.shop.service.AdminService;
 import com.shop.utile.UploadFileUtils;
+
+import net.sf.json.JSONArray;
 
 @Controller
 @RequestMapping("/admin/")
@@ -46,8 +49,13 @@ public class AdminController {
 	
 	//상품 등록 get
 	@RequestMapping(value = "/goods/register", method = RequestMethod.GET)
-	public void registerGET()throws Exception{
+	public void registerGET(Model model)throws Exception{
 		logger.info("get 상품 등록");
+		
+		List<CategoryVO> category = null; 
+		category = service.category();
+		model.addAttribute("category", JSONArray.fromObject(category));
+						//category를 JSON타입으로 변경한뒤, category라는 명칭으로 model에 추가
 	}
 	
 	//상품 등록 post

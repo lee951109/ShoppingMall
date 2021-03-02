@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.shop.mapper.shopMapper">
+
+<resultMap type="GoodsVO" id="GoodsMap">
+	<id column="gdsNum" property="gdsNum" />
+	<result column="gdsName" property="gdsName" />
+	<result column="cateCode" property="cateCode" />
+	<result column="gdsPrice" property="gdsPrice" />
+	<result column="gdsStock" property="gdsStock" />
+	<result column="gdsDes" property="gdsDes" />
+	<result column="gdsImg" property="gdsImg" />
+	<result column="gdsDate" property="gdsDate" />
+	<result column="gdsThumbImg" property="gdsThumbImg" />
+</resultMap>
+
+<resultMap type="CategoryVO" id="CategoryMap">
+	<id column="cateCode" property="cateCode" />
+	<result column="cateName" property="cateName" />
+	<result column="cateCodeRef" property="cateCodeRef" />
+</resultMap>
+	<!-- 카테고리별 상픔 리스트 1차 분류 -->
+	<select id="list_1" parameterType="GoodsVO" resultMap="GoodsMap">
+		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsImg, g.gdsThumbImg,
+				c.cateCode, c.cateName, c.cateCodeRef
+		FROM goods g INNER JOIN goods_category c
+		ON g.cateCode = c.cateCode
+		WHERE g.cateCode = #{cateCode}
+		OR c.cateCodeRef = #{cateCodeRef}
+	</select>
+	
+	<!-- 카테고리별 상픔 리스트 2차 분류 -->
+	<select id="list_2" parameterType="GoodsVO" resultMap="GoodsMap">
+		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsImg, g.gdsThumbImg,
+				c.cateCode, c.cateName, c.cateCodeRef
+		FROM goods g INNER JOIN goods_category c
+		ON g.cateCode = c.cateCode
+		WHERE g.cateCode = #{cateCode}
+	</select>
+	
+	<!-- 상품 조회 -->
+	<select id="goodsUserDetail"  parameterType="GoodsVO" resultMap="GoodsMap">
+		select g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDes, g.gdsImg, g.gdsDate, g.gdsThumbImg,
+				c.cateCode, c.cateName
+		from goods g JOIN goods_category c
+		ON g.cateCode = c.cateCode
+		where gdsNum = #{gdsNum}
+	</select>
+
+</mapper>

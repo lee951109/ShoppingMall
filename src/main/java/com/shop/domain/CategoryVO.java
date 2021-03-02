@@ -6,8 +6,10 @@ import lombok.Data;
 public class CategoryVO {
 
 	private String cateName; 		//카테고리 이름
-	private String cateCode;		//카테고리 코드번호
-	private String cateCodeRef;		//카테고리 코드 참조번호
+	private int cateCode;		//카테고리 코드번호
+	private int cateCodeRef;		//카테고리 코드 참조번호
+	
+	private int level;
 }
 
 /*
