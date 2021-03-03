@@ -102,7 +102,7 @@ $(document).ready(function(){
 	var nameJ = /^[가-힣]{2,6}$/;
 	//-_. 특수문자가 가능하며 중앙에 @ 필수 .뒤에 2~3글자가 필요하다
 	var emailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	var phoneJ = /^01(0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
+	var phoneJ = /^01(0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
 	
 	var code = ""; //이메일전송 인증번호 저장을 위한 코드
 	$('#userId').blur(function(){ //blur 이벤트는 포커스가 해제되었을때 발생
@@ -175,7 +175,7 @@ $(document).ready(function(){
 	//핸드폰 정규식
 	$('#phone').blur(function(){
 		if(phoneJ.test($(this).val())){
-			console.log(nameJ.test($(this).val()));
+			console.log(phoneJ.test($(this).val()));
 			$('#phone_check').text('');
 		}else{
 			$('#phone_check').text('휴대폰 번호를 확인해주세요.');
