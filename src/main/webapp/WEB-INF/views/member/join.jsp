@@ -122,7 +122,7 @@ $(document).ready(function(){
 					if(idJ.test(userId)){
 						// 0: 아이디 길이/ 문자열 검사
 						$("#id_check").text("");
-						$("#join_button").attr("disabled", true);
+						$("#join_button").attr("disabled", false);
 					}else if(userId == ""){
 						$("#id_check").text("아이디를 입력해주세요");
 						$("#id_check").css("color", "red");

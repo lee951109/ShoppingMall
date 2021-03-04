@@ -6,7 +6,7 @@ h1, h2, h3, h4, h5, h6 { margin:0; padding:0; }
 ul, lo, li { margin:0; padding:0; list-style:none; }
 
 
-section#content {float:left; width:700px; margin-top:10px; margin-left:200px;}
+section#content {float:left; width:calc(100vw-200px)!important; margin-top:10px; margin-left:200px;}
 section#container::after { content:""; display:block; clear:both; }	
 
 aside#aside {height:auto; width:180px; position:fixed; z-index:1; padding-top:20px;}
