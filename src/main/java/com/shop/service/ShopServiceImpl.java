@@ -5,7 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shop.domain.CartVO;
 import com.shop.domain.GoodsVO;
+import com.shop.domain.OrderDetailVO;
+import com.shop.domain.OrderVO;
+import com.shop.domain.ReviewVO;
 import com.shop.persistence.ShopDAO;
 
 @Service
@@ -35,5 +39,64 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public GoodsVO goodsUserDetail(int gdsNum) throws Exception {
 		return dao.goodsUserDetail(gdsNum);
+	}
+
+	//상품리뷰 등록
+	@Override
+	public int registReview(ReviewVO review) throws Exception {
+		return dao.registReview(review);
+		
+	}
+
+	//리뷰 리스트
+	@Override
+	public List<ReviewVO> listReview(int gdsNum) throws Exception {
+		return dao.listReview(gdsNum);
+	}
+
+	//리뷰 수정
+	@Override
+	public int updateReview(ReviewVO review) throws Exception {
+		return dao.updateReview(review);
+	}
+
+	//리뷰 삭제
+	@Override
+	public int deleteReview(int reviewNum) throws Exception {
+		return dao.deleteReview(reviewNum);
+	}
+
+	//장바구니 담기
+	@Override
+	public void addCart(CartVO cart) throws Exception {
+		dao.addCart(cart);
+		
+	}
+
+	//장바구니 리스트
+	@Override
+	public List<CartVO> cartList(String userId) throws Exception {
+		return dao.cartList(userId);
+	}
+	
+	//장바구니 삭제
+	@Override
+	public void deleteCart(CartVO cart) throws Exception {
+		dao.deleteCart(cart);
+		
+	}
+
+	//주문 정보
+	@Override
+	public void orderInfo(OrderVO order) throws Exception {
+		dao.orderInfo(order);
+		
+	}
+
+	//주문 상세 정보
+	@Override
+	public void orderInfoDetail(OrderDetailVO orderDetail) throws Exception {
+		dao.orderInfoDetail(orderDetail);
+		
 	}
 }

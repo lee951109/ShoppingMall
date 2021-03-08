@@ -39,6 +39,11 @@
         <a class="dropdown-item" href="/list?c=303&l=2">전술가방(Backpack)</a>
       </div>
     </li>
+    <c:if test="${member != null }">
+    <li class="nav-item">
+      <a class="nav-link" href="/cartList">장바구니</a>
+    </li>
+    </c:if>
   </ul>
   <ul class="nav navbar-nav ml-auto">
    <form class="form-inline my-2 my-lg-0" action="#">

@@ -16,15 +16,33 @@
 	<result column="gdsImg" property="gdsImg" />
 	<result column="gdsDate" property="gdsDate" />
 	<result column="gdsThumbImg" property="gdsThumbImg" />
-</resultMap>
-
-<resultMap type="CategoryVO" id="CategoryMap">
+	<association javaType="CategoryVO" property="categoryVO">
 	<id column="cateCode" property="cateCode" />
 	<result column="cateName" property="cateName" />
 	<result column="cateCodeRef" property="cateCodeRef" />
+	</association>
+</resultMap>
+
+<resultMap type="CartVO" id="CartMap">
+	<id column="cartNum" property="cartNum" />
+	<id column="userId" property="userId" />
+	<result column="gdsNum" property="gdsNum" />
+	<result column="cartStock" property="cartStock" />
+	<result column="addDate" property="addDate" />
+		<association javaType="GoodsVO" property="goodsVO" >
+		<id column="gdsNum" property="gdsNum" />
+		<result column="gdsName" property="gdsName" />
+		<result column="cateCode" property="cateCode" />
+		<result column="gdsPrice" property="gdsPrice" />
+		<result column="gdsStock" property="gdsStock" />
+		<result column="gdsDes" property="gdsDes" />
+		<result column="gdsImg" property="gdsImg" />
+		<result column="gdsDate" property="gdsDate" />
+		<result column="gdsThumbImg" property="gdsThumbImg" />
+		</association>		
 </resultMap>
 	<!-- 카테고리별 상픔 리스트 1차 분류 -->
-	<select id="list_1" parameterType="GoodsVO" resultMap="GoodsMap">
+	<select id="list_1" parameterType="int" resultMap="GoodsMap">
 		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsImg, g.gdsThumbImg,
 				c.cateCode, c.cateName, c.cateCodeRef
 		FROM goods g INNER JOIN goods_category c
@@ -34,7 +52,7 @@
 	</select>
 	
 	<!-- 카테고리별 상픔 리스트 2차 분류 -->
-	<select id="list_2" parameterType="GoodsVO" resultMap="GoodsMap">
+	<select id="list_2" parameterType="int" resultMap="GoodsMap">
 		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsImg, g.gdsThumbImg,
 				c.cateCode, c.cateName, c.cateCodeRef
 		FROM goods g INNER JOIN goods_category c
@@ -43,12 +61,72 @@
 	</select>
 	
 	<!-- 상품 조회 -->
-	<select id="goodsUserDetail"  parameterType="GoodsVO" resultMap="GoodsMap">
+	<select id="goodsUserDetail"  parameterType="int" resultMap="GoodsMap">
 		select g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDes, g.gdsImg, g.gdsDate, g.gdsThumbImg,
 				c.cateCode, c.cateName
 		from goods g JOIN goods_category c
 		ON g.cateCode = c.cateCode
 		where gdsNum = #{gdsNum}
 	</select>
-
+	
+	<!-- 상품리부 작성 -->
+	<insert id="registReview">
+		insert into review(gdsNum, userId, reviewNum, reviewContent)
+		values(#{gdsNum}, #{userId}, #{reviewNum}, #{reviewContent})
+	</insert>
+	
+	<!-- 리뷰 리스트 -->
+	<select id="listReview" resultType="ReviewVO">
+		select gdsNum, userId, reviewNum, reviewContent
+		from review
+		where gdsNum = #{gdsNum}
+	</select>
+	
+	<!-- 리뷰 수정 -->
+	<update id="updateReview">
+		update review
+		set replyContent = #{reviewContent}, updateDate = #{updateDate}
+		where reviewNum = #{rreviewNum}
+	</update>
+	
+	<!-- 리뷰 삭제 -->
+	<delete id="deleteReview">
+		delete from review where reviewNum = #{reviewNum}
+	</delete>
+	
+	<!-- 장바구니 저장 -->
+	<insert id="addCart">
+		insert into cart(cartNum, cartStock, gdsNum, userId)
+		values(#{cartNum}, #{cartStock}, #{gdsNum}, #{userId})
+	</insert>
+	
+	<!-- 장바구니 리스트 -->
+	<select id="cartList" parameterType="String" resultMap="CartMap">
+		SELECT c.cartNum, c.cartStock, c.gdsNum, c.userId, c.addDate,
+				g.gdsNum, g.gdsName, g.gdsThumbImg, g.gdsPrice
+		FROM cart c JOIN goods g
+		ON c.gdsNum = g.gdsNum
+		WHERE c.userId = #{userId}
+		ORDER BY c.cartNum desc	
+	</select>
+	
+	<!-- 장바구니 삭제 -->
+	<delete id="deleteCart">
+		delete from cart where cartNum = #{cartNum} and userId = #{userId}
+	</delete>
+	
+	<!-- 주문 정보 -->
+	<insert id="orderInfo">
+		INSERT INTO order(orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount)
+		VALUES(#{orderId}, #{userId}, #{orderRec}, #{userAddr1}, #{userAddr2}, #{userAddr3}, #{orderPhone}, #{amount})
+	</insert>
+	
+	<!-- 주문 상세 정보 -->
+	<insert id="orderInfoDetail">
+		INSERT INTO orderDetails(orderDetailsNum, orderId, gdsNum, cartStock)
+	<selectKey keyProperty="orderId" resultType="String" order="BEFORE">
+		select  orderDetailsNum, #{orderId}, gdsNum, cartStock from cart
+	</selectKey>
+	</insert>
+	
 </mapper>

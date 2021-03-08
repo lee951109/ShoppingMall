@@ -8,6 +8,8 @@
 		<typeAlias type="com.shop.domain.CategoryVO" alias="CategoryVO" />
 		<typeAlias type="com.shop.domain.GoodsVO" alias="GoodsVO" />
 		<typeAlias type="com.shop.domain.MemberVO" alias="MemberVO" />
+		<typeAlias type="com.shop.domain.ReviewVO" alias="ReviewVO" />
+		<typeAlias type="com.shop.domain.CartVO" alias="CartVO" />
 	</typeAliases>
 
 </configuration>

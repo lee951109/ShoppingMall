@@ -75,7 +75,7 @@
 						<td>
 							<a href="/admin/goods/detail?n=${list.gdsNum}">${list.gdsName}</a>
 						</td>
-						<td>${list.cateName}</td>
+						<td>${list.categoryVO.cateName}</td>
 						<td>
 							<fmt:formatNumber value="${list.gdsPrice}" pattern="###,###,###"/>원
 						</td>

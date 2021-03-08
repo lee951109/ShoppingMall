@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class GoodsVO extends CategoryVO{
+public class GoodsVO{
 
 	private int gdsNum;				//상품 번호
 	private String gdsName;			//상품 이름
@@ -16,6 +16,8 @@ public class GoodsVO extends CategoryVO{
 	private String gdsImg;			//상품 이미지
 	private String gdsThumbImg;		//상품 섬네일
 	private Timestamp gdsDate;		//등록 날짜
+	
+	private CategoryVO categoryVO;
 
 }
 /*
