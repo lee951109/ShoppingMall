@@ -117,15 +117,17 @@
 	
 	<!-- 주문 정보 -->
 	<insert id="orderInfo">
-		INSERT INTO order(orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount)
-		VALUES(#{orderId}, #{userId}, #{orderRec}, #{userAddr1}, #{userAddr2}, #{userAddr3}, #{orderPhone}, #{amount})
+		insert into `order`(orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount)
+		values(#{orderId}, #{userId}, #{orderRec}, #{userAddr1}, #{userAddr2}, #{userAddr3}, #{orderPhone}, #{amount})
 	</insert>
 	
 	<!-- 주문 상세 정보 -->
 	<insert id="orderInfoDetail">
 		INSERT INTO orderDetails(orderDetailsNum, orderId, gdsNum, cartStock)
+		values(#{orderDetailsNum}, #{orderId}, #{gdsNum}, #{cartStock})
 	<selectKey keyProperty="orderId" resultType="String" order="BEFORE">
-		select  orderDetailsNum, #{orderId}, gdsNum, cartStock from cart
+		select LAST_INSERT_ID()
+		from cart
 	</selectKey>
 	</insert>
 	

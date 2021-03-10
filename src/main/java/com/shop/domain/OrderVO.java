@@ -8,8 +8,8 @@ import lombok.Data;
 public class OrderVO {
 
 	private String orderId;			//주문자 아이디
-	private String UserId;			//유저 아이디
-	private String orderRec;		//주문 수신자 Receiver
+	private String userId;			//유저 아이디
+	private String orderRec;		//수신자 Receiver
 	private String userAddr1;		//주소1
 	private String userAddr2;		//주소2
 	private String userAddr3;		//주소3

@@ -1,15 +1,9 @@
 package com.shop.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shop.domain.CategoryVO;
 import com.shop.domain.GoodsVO;
+import com.shop.paging.Criteria;
+import com.shop.paging.PageMaker;
 import com.shop.service.AdminService;
 import com.shop.utile.UploadFileUtils;
 
@@ -61,13 +57,13 @@ public class AdminController {
 	//상품 등록 post
 	@RequestMapping(value = "/goods/register", method = RequestMethod.POST)
 	public String registerPOST(GoodsVO vo, MultipartFile file)throws Exception{
-		logger.info("post 상품 등록");
-		logger.info("=================================");
-		logger.info("파일이름 : " + file.getOriginalFilename());
-		logger.info("파일크기 : " + file.getSize());
-		logger.info("컨텐트 타입 : " + file.getContentType());
-		logger.info("=================================");
-										//File.separtor= / 역할을 함
+//		logger.info("post 상품 등록");
+//		logger.info("=================================");
+//		logger.info("파일이름 : " + file.getOriginalFilename());
+//		logger.info("파일크기 : " + file.getSize());
+//		logger.info("컨텐트 타입 : " + file.getContentType());
+//		logger.info("=================================");
+											//File.separtor= / 역할을 함
 		String imgUploadPath = uploadPath + File.separator + "imgUpload";  // 이미지를 업로드할 폴더를 설정 = /uploadPath/imgUpload 
 		String ymPath = UploadFileUtils.calcPath(imgUploadPath);  // 위의 폴더를 기준으로 연월 폴더를 생성
 		String fileName = null;  // 기본 경로와 별개로 작성되는 경로 + 파일이름
@@ -88,30 +84,26 @@ public class AdminController {
 			
 			vo.setGdsImg(fileName);
 			vo.setGdsThumbImg(fileName);
-		}
-		
-		
-//		System.out.println("=================");
-//		
-//		System.out.println("상품이름 = " + vo.getGdsName());
-//		System.out.println("가격 = " + vo.getGdsPrice());
-//		System.out.println("내용 = " + vo.getGdsDes());
-//		System.out.println("이미지 = " + vo.getGdsImg());
-//		System.out.println("=================");
-		
+		}		
 		service.register(vo);
-		
 		return "redirect:/admin/goods/list";
 	}
 	
-	//상품 목록
+	//상품 목록 + 페이징
 	@RequestMapping(value = "/goods/list", method = RequestMethod.GET)
-	public void goodsListGET(Model model)throws Exception{
+	public void goodsListGET(Model model, Criteria cri)throws Exception{
 		logger.info("get 상품 목록");
 		
-		List<GoodsVO> list = service.goodslist();
-		
+		List<GoodsVO> list = null; 
+		list = service.goodslist(cri);
 		model.addAttribute("list", list);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.count());
+		
+		model.addAttribute("pageMaker", pageMaker);
+		
 	}
 	
 	//상품 디테일
@@ -170,6 +162,4 @@ public class AdminController {
 		return "redirect:/admin/goods/list";
 	}
 
-	
-	
 }

@@ -59,7 +59,7 @@
 							<tr>
 								<th>카테고리</th>
 								<td style="text-align:left;" colspan=2>
-									<span class="cateCode">${goods.cateName}</span>
+									<span class="cateCode">${goods.categoryVO.cateName}</span>
 								</td>
 							</tr>
 							<tbody id="twrite">

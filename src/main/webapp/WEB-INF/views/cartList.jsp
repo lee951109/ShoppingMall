@@ -37,8 +37,15 @@ section#content ul li { margin:10px 0; }
 .listResult .sum { float:left; width:45%; font-size:22px; }
 
 .listResult .orderOpne { float:right; width:45%; text-align:right; }
-.listResult .orderOpne button { font-size:18px; padding:5px 10px; border:1px solid #999; background:#fff; margin-bottom:30px;}
 .listResult::after { content:""; display:block; clear:both; }
+
+.orderInfo { border:5px solid #eee; padding:20px; display:none;}
+.orderInfo .inputArea { margin:10px 0; }
+.orderInfo .inputArea label { display:inline-block; width:120px; margin-right:10px; }
+.orderInfo .inputArea input { font-size:14px; padding:5px; }
+#userAddr2, #userAddr3 { width:250px; }
+
+.orderInfo .inputArea:last-child { margin-top:30px; }
 </style>
 </head>
 
@@ -114,7 +121,7 @@ section#content ul li { margin:10px 0; }
 				<c:forEach items="${cartList}" var="cartList">
 					<li>
 						<div class="checkBox">
-							<input type="checkbox" name="chBox" class="chBox" data-cartNum="${cartList.cartNum}">
+							<input type="checkbox" name="chBox" class="chBox" data-cartNum="${cartList.cartNum}" value="${cartList.goodsVO.gdsPrice * cartList.cartStock}">
 							<script>
 								$(".chBox").click(function(){
 									$("#allCheck").prop("checked",false);
@@ -169,7 +176,6 @@ section#content ul li { margin:10px 0; }
 					<hr/>
 					<%-- 반복할 때마다 sum에 상품 가격(gdsPrice)*상품 갯수(cartStock)만큼을 더함 --%>
 				<c:set var="sum" value="${sum + ( cartList.goodsVO.gdsPrice * cartList.cartStock)}"/>	
-					
 				</c:forEach>
 			</ul>
 			
@@ -178,8 +184,56 @@ section#content ul li { margin:10px 0; }
 					총 합계: <fmt:formatNumber pattern="###,###,###" value="${sum}" />원
 				</div>
 				<div class="orderOpne">
-					<button type="button" class="orderOpne_btn">주문 정보 입력</button>
+					<button type="button" class="btn btn-success orderOpne_btn">주문 정보 입력</button>
+					<script>
+						$(".orderOpne_btn").click(function(){
+							$(".orderInfo").slideDown();
+							$(".orderOpne_btn").slideUp();
+						});
+					</script>
 				</div>
+			</div>
+			
+			<div class="orderInfo">
+				<form role="form" method="post" autocomplete="off">
+					<input type="hidden" name="amount" value="${sum}">
+					
+					<div class="inputArea">
+						<label for="orderRec">수령인</label>
+						<input type="text" name="orderRec" id="orderRec" required>
+					</div>
+					
+					<div class="inputArea">
+						<label for="orderPhone">수령인 연락처</label>
+						<input type="text" name="orderPhone" id="orderPhone" required>
+					</div>
+					
+					<div class="inputArea">
+						<label for="userAddr1">우편번호</label>
+						<input type="text" name="userAddr1" id="userAddr1" required>
+					</div>
+					
+					<div class="inputArea">
+						<label for="userAddr2">주소</label>
+						<input type="text" name="userAddr2" id="userAddr2" required>
+					</div>
+					
+					<div class="inputArea">
+						<label for="userAddr3">상세 주소</label>
+						<input type="text" name="userAddr3" id="userAddr3" required>
+					</div>
+					
+					<div class="inputArea">
+						<button type="submit" class="btn btn-primary orderBtn">주문</button>
+						<button type="button" class="btn btn-danger cancleBtn">취소</button>
+						<script>
+						$(".cancleBtn").click(function(){
+							$(".orderInfo").slideUp();
+							$(".orderOpne_btn").slideDown();
+						});
+					</script>
+					</div>
+				</form>
 			</div>
 		</section>
 		<aside id="aside">

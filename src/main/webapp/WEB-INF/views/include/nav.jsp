@@ -45,12 +45,7 @@
     </li>
     </c:if>
   </ul>
-  <ul class="nav navbar-nav ml-auto">
-   <form class="form-inline my-2 my-lg-0" action="#">
-    <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search">
-    <button class="btn btn-success" type="submit">검색</button>
-  </form>
-  </ul>
+
   <ul class="nav navbar-nav ml-auto">
   <c:if test="${member == null}">
     <li class="nav-item">

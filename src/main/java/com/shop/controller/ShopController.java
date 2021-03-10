@@ -1,5 +1,7 @@
 package com.shop.controller;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -122,14 +124,34 @@ public class ShopController {
 	
 	//주문
 	@RequestMapping(value = "cartList", method = RequestMethod.POST)
-	public void orderPOST(HttpSession session, OrderVO order, OrderDetailVO orderDetail)throws Exception{
+	public String orderPOST(HttpSession session, OrderVO order, OrderDetailVO orderDetail)throws Exception{
 		logger.info("post 주문!");
 		
 		MemberVO member = (MemberVO)session.getAttribute("member");
 		String userId = member.getUserId();
 		
+		Calendar cal = Calendar.getInstance(); //현재 시간 가져오기
+		int year = cal.get(Calendar.YEAR);
+		String ym = year + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
+							//DecimailFormat 숫자형 값을 형식화 된 문자열로 변환
+		String ymd = ym + new DecimalFormat("00").format(cal.get(Calendar.DATE));
+		String subNum = "";
+		
+		for(int i = 0; i <= 6; i++) {
+			subNum += (int)(Math.random() * 10);
+		}
+		
+		String orderId = ymd + "-" +subNum; //주문 번호는 년/월/일-랜덤번호로 구성
+		
+		order.setOrderId(orderId);
+		order.setUserId(userId);
+		
 		service.orderInfo(order);
+		
+		orderDetail.setOrderId(orderId);
 		service.orderInfoDetail(orderDetail);
+		
+		return "redirect:/orderList";
 	}
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.shop.domain.CategoryVO;
 import com.shop.domain.GoodsVO;
+import com.shop.paging.Criteria;
 @Repository
 public class AdminDAOImpl implements AdminDAO {
 
@@ -28,10 +29,10 @@ public class AdminDAOImpl implements AdminDAO {
 
 	}
 
-	//상품 목록
+	//상품 목록 + 페이징
 	@Override
-	public List<GoodsVO> goodslist() throws Exception {
-		return session.selectList(namespace + ".goodslist");
+	public List<GoodsVO> goodslist(Criteria cri) throws Exception {
+		return session.selectList(namespace + ".goodslist", cri);
 	}
 
 	//상품 조회
@@ -53,5 +54,11 @@ public class AdminDAOImpl implements AdminDAO {
 		session.delete(namespace + ".goodsDelete", gdsNum);
 	}
 
+	//상품 총 개수
+	@Override
+	public int count() throws Exception {
+		return session.selectOne(namespace + ".count");
+		
+	}
 
 }

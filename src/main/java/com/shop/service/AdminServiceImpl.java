@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.shop.domain.CategoryVO;
 import com.shop.domain.GoodsVO;
+import com.shop.paging.Criteria;
 import com.shop.persistence.AdminDAO;
 
 @Service
@@ -26,11 +27,10 @@ public class AdminServiceImpl implements AdminService {
 		dao.register(vo);
 
 	}
-	//상품 목록
+	//상품 목록 + 페이징
 	@Override
-	public List<GoodsVO> goodslist() throws Exception {
-		System.out.println("서비스");
-		return dao.goodslist();
+	public List<GoodsVO> goodslist(Criteria cri) throws Exception {
+		return dao.goodslist(cri);
 	}
 	//상품 조회
 	@Override
@@ -42,10 +42,15 @@ public class AdminServiceImpl implements AdminService {
 	public void goodsModify(GoodsVO vo) throws Exception {	
 		dao.goodsModify(vo);
 	}
+	//상품 삭제
 	@Override
 	public void goodsDelete(int gdsNum) throws Exception {
 		dao.goodsDelete(gdsNum);
 	}
-
+	//상품 총 갯수
+	@Override
+	public int count() throws Exception {
+		return dao.count();
+	}
 
 }
