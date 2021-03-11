@@ -56,8 +56,8 @@ public class AdminDAOImpl implements AdminDAO {
 
 	//상품 총 개수
 	@Override
-	public int count() throws Exception {
-		return session.selectOne(namespace + ".count");
+	public int count(Criteria cri) throws Exception {
+		return session.selectOne(namespace + ".count", cri);
 		
 	}
 

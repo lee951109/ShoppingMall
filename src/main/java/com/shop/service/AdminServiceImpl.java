@@ -49,8 +49,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 	//상품 총 갯수
 	@Override
-	public int count() throws Exception {
-		return dao.count();
+	public int count(Criteria cri) throws Exception {
+		return dao.count(cri);
 	}
 
 }

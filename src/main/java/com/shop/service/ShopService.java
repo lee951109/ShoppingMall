@@ -7,6 +7,7 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
+import com.shop.paging.Criteria;
 
 public interface ShopService {
 
@@ -20,13 +21,13 @@ public interface ShopService {
 	public int registReview(ReviewVO review)throws Exception;
 	
 	//리뷰 리스트
-	public List<ReviewVO> listReview(int gdsNum)throws Exception;
+	public List<ReviewVO> listReview(Criteria cri, int gdsNum)throws Exception;
 	
 	//리뷰 수정
-	public int updateReview(ReviewVO review)throws Exception;
+	public void updateReview(ReviewVO review)throws Exception;
 	
 	//리뷰 삭제
-	public int deleteReview(int reviewNum)throws Exception;
+	public void deleteReview(int reviewNum)throws Exception;
 
 	//장바구니 담기
 	public void addCart(CartVO cart)throws Exception;

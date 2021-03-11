@@ -12,6 +12,7 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
+import com.shop.paging.Criteria;
 
 @Repository
 public class ShopDAOImpl implements ShopDAO {
@@ -50,26 +51,26 @@ public class ShopDAOImpl implements ShopDAO {
 	//상품리뷰 등록
 	@Override
 	public int registReview(ReviewVO review) throws Exception {
-		return session.insert(namespace + ".registReply", review);
+		return session.insert(namespace + ".registReview", review);
 
 	}
 	
 	//리뷰 리스트
 	@Override
-	public List<ReviewVO> listReview(int gdsNum) throws Exception {
-		return session.selectList(namespace +".listReply", gdsNum);
+	public List<ReviewVO> listReview(Criteria cri, int gdsNum) throws Exception {
+		return session.selectList(namespace +".listReview",gdsNum);
 	}
 
 	//리뷰 수정
 	@Override
-	public int updateReview(ReviewVO review) throws Exception {
-		return session.update(namespace + ".updateReply", review);
+	public void updateReview(ReviewVO review) throws Exception {
+		session.update(namespace + ".updateReview", review);
 	}
 
 	//리뷰 삭제
 	@Override
-	public int deleteReview(int reviewNum) throws Exception {
-		return session.delete(namespace + ".deleteReply", reviewNum);
+	public void deleteReview(int reviewNum) throws Exception {
+		session.delete(namespace + ".deleteReview", reviewNum);
 	}
 
 	//장바구니 담기

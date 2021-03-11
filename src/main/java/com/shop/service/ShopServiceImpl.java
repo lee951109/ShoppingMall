@@ -10,6 +10,7 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
+import com.shop.paging.Criteria;
 import com.shop.persistence.ShopDAO;
 
 @Service
@@ -50,20 +51,20 @@ public class ShopServiceImpl implements ShopService {
 
 	//리뷰 리스트
 	@Override
-	public List<ReviewVO> listReview(int gdsNum) throws Exception {
-		return dao.listReview(gdsNum);
+	public List<ReviewVO> listReview(Criteria cri, int gdsNum) throws Exception {
+		return dao.listReview(cri, gdsNum);
 	}
 
 	//리뷰 수정
 	@Override
-	public int updateReview(ReviewVO review) throws Exception {
-		return dao.updateReview(review);
+	public void updateReview(ReviewVO review) throws Exception {
+		dao.updateReview(review);
 	}
 
 	//리뷰 삭제
 	@Override
-	public int deleteReview(int reviewNum) throws Exception {
-		return dao.deleteReview(reviewNum);
+	public void deleteReview(int reviewNum) throws Exception {
+		dao.deleteReview(reviewNum);
 	}
 
 	//장바구니 담기

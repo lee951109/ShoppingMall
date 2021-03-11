@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,8 +92,8 @@ public class AdminController {
 	
 	//상품 목록 + 페이징
 	@RequestMapping(value = "/goods/list", method = RequestMethod.GET)
-	public void goodsListGET(Model model, Criteria cri)throws Exception{
-		logger.info("get 상품 목록");
+	public String goodsListGET(Model model, Criteria cri)throws Exception{
+		logger.info("get 상품 목록 + 페이징~");
 		
 		List<GoodsVO> list = null; 
 		list = service.goodslist(cri);
@@ -100,10 +101,11 @@ public class AdminController {
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(service.count());
+		pageMaker.setTotalCount(service.count(cri));
 		
 		model.addAttribute("pageMaker", pageMaker);
 		
+		return "admin/goods/list";
 	}
 	
 	//상품 디테일

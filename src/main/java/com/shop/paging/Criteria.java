@@ -5,12 +5,10 @@ import lombok.ToString;
 @ToString
 public class Criteria {
 
-	private int page;
-	private int perPageNum;
-	private int rowStart;
-	private int rowEnd;
+	private int page;			//현재 페이지 번호
+	private int perPageNum;		//페이지 당 출력되는 게시글 갯수
 	
-	public Criteria() {
+	public Criteria() { //기본생성자이다, 현재 페이지를 1, 페이지 당 출력할 게시글의 갯수를 10으로 기본 세팅!
 		this.page = 1;
 		this.perPageNum = 10;
 	}
@@ -35,19 +33,10 @@ public class Criteria {
 		}
 		this.perPageNum = perPageNum;
 	}
-	public int getRowStart() {
-		rowStart = ((page -1) * perPageNum) +1;
-		return rowStart;
-	}
-	public void setRowStart(int rowStart) {
-		this.rowStart = rowStart;
-	}
-	public int getRowEnd() {
-		rowEnd = rowStart + perPageNum -1;
-		return rowEnd;
-	}
-	public void setRowEnd(int rowEnd) {
-		this.rowEnd = rowEnd;
+	
+	//현재 페이지의 시작 게시글 번호 = (현재 페이지 번호 -1) * 페이지 당 출력할 게시글의 갯수
+	public int getPageStart() {
+		return (this.page - 1) * perPageNum;
 	}
 	
 	

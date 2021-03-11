@@ -81,26 +81,49 @@
 						</td>
 						<td>${list.gdsStock}개</td>
 						<td>
-							<fmt:formatDate value="${list.gdsDate}" pattern="yyyy-mm-dd" />
+							<fmt:formatDate value="${list.gdsDate}" pattern="yyyy-MM-dd" />
 						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 		<div>
+			<form id="listPageForm">
+				<input type="hidden" name="page" value="${pageMaker.cri.page}">
+				<input type="hidden" name="perPageNum" value="${pageMaker.cri.perPageNum}">
+			</form>
 			<ul class="pagination justify-content-center">
 				<c:if test="${pageMaker.prev}">
-					<li class="page-item"><a class="page-link" href="list${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+					<%--<li class="page-item"><a class="page-link" href="list${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>--%>
+					<li class="page-item"><a class="page-link" href="${pageMaker.startPage - 1}">이전</a></li>
 				</c:if>	
 				
 				<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-					<li class="page-item"><a class="page-link" href="list${pageMaker.makeSearch(idx)}">${idx}</a></li>
+					<li class="page-item"<c:out value="${pageMaker.cri.page == idx ? 'calss=active' : ''}" />>
+					<%--<a class="page-link" href="list${pageMaker.makeQuery(idx)}">${idx}</a>--%>
+					<a class="page-link" href="${idx}">${idx}</a>
+					</li>
 				</c:forEach>
 				
 				<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-					<li class="page-item"><a class="page-link" href="list${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+					<%--<li class="page-item"><a class="page-link" href="list${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li> --%>
+					<li class="page-item"><a class="page-link" href="${pageMaker.endPage + 1}">다음</a></li>
 				</c:if>
 			</ul>
+			
+			<script>
+			//페이지 번호를 클릭할때 이벤트를 처리
+				$(".pagination li a").on("click", function(){
+					event.preventDefault(); // 페이지 이동을 막음
+					
+					var targetPage = $(this).attr("href");
+					var listPageForm = $("#listPageForm");
+					listPageForm.find("[name='page']").val(targetPage);
+					listPageForm.attr("action", "/admin/goods/list").attr("method", "get");
+					listPageForm.submit();
+				})
+				
+			</script>
 		</div>
 		
 	</div>

@@ -27,5 +27,5 @@ public interface AdminService {
 	public void goodsDelete(int gdsNum)throws Exception;
 	
 	//상품 총 개수
-	public int count()throws Exception;
+	public int count(Criteria cri)throws Exception;
 }

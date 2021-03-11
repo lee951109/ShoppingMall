@@ -58,7 +58,7 @@
 		FROM goods g JOIN goods_category c
 		ON g.cateCode = c.cateCode
 		ORDER BY g.gdsNum desc
-		limit #{rowStart}, #{rowEnd}
+		limit #{pageStart}, #{perPageNum}
 	</select>
 
 	<!-- 상품 조회 -->
@@ -90,8 +90,11 @@
 	
 	<!-- 상품 총 갯수 -->
 	<select id="count" resultType="int">
+		<![CDATA[
 		select count(*) 
 		from goods
+		where gdsNum > 0
+		]]>
 	</select>	
 </mapper>
 

@@ -1,23 +1,26 @@
 package com.shop.controller;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shop.domain.MemberVO;
 import com.shop.domain.ReviewVO;
+import com.shop.paging.Criteria;
 import com.shop.service.ShopService;
 
 @RestController
-@RequestMapping("/replies")
+@RequestMapping("/detail")
 public class ReviewController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
@@ -25,21 +28,26 @@ public class ReviewController {
 	@Autowired
 	ShopService service;
 	
-	//리뷰 등록
-	@RequestMapping(value = "/detail", method = RequestMethod.POST)
-	public ResponseEntity<String> registReview(@RequestBody ReviewVO review, HttpSession session){
-		logger.debug("리뷰작성>>{}", review);
+	//리뷰 목록
+	@GetMapping(value = "/page/{gdsNum}/{page}",
+					produces = {MediaType.APPLICATION_XML_VALUE,
+								MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<ReviewVO>> listReview(@PathVariable("page")int page,
+													 @PathVariable("gn")int gdsNum)throws Exception{
+		logger.info("REST GET 리뷰 목록!");
+		Criteria cri = new Criteria();
+		logger.info("cri: " + cri);
 		
-		MemberVO member = (MemberVO)session.getAttribute("member");
-			String userId = member.getUserId();
-		
-		try {
-			service.registReview(review);
-			//제대로 등록되었으면 "ReviewRegisterOK" 문자열과 HTTP상태 정상
-			return new ResponseEntity<>("ReviewRegisterOK",HttpStatus.OK);
-		}catch(Exception e) {
-			//제대로 등록 안 되었으면 예외 메시지오 HTTP 상태 400
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+		return new ResponseEntity<>(service.listReview(cri, gdsNum), HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> create(@RequestBody ReviewVO review)throws Exception {
+		logger.info("ReplyVO :"+review);
+		int insertCount = service.registReview(review);
+		logger.info("Reply INSERT COUNT"+insertCount);
+		return insertCount==1?new ResponseEntity<>("success",HttpStatus.OK)
+				:new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 삼항연산자처리
+	}
+	
 }

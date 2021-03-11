@@ -80,13 +80,14 @@
 		select gdsNum, userId, reviewNum, reviewContent
 		from review
 		where gdsNum = #{gdsNum}
+		order by reviewNum asc
 	</select>
 	
 	<!-- 리뷰 수정 -->
 	<update id="updateReview">
 		update review
-		set replyContent = #{reviewContent}, updateDate = #{updateDate}
-		where reviewNum = #{rreviewNum}
+		set reviewContent = #{reviewContent}, updateDate = #{updateDate}
+		where reviewNum = #{reviewNum}
 	</update>
 	
 	<!-- 리뷰 삭제 -->
