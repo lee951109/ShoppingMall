@@ -35,6 +35,7 @@ public class ShopServiceImpl implements ShopService {
 			return dao.list(cateCode);
 		}
 	}
+
 	
 	//상품 상세보기
 	@Override
@@ -51,21 +52,28 @@ public class ShopServiceImpl implements ShopService {
 
 	//리뷰 리스트
 	@Override
-	public List<ReviewVO> listReview(Criteria cri, int gdsNum) throws Exception {
-		return dao.listReview(cri, gdsNum);
+	public List<ReviewVO> listReview(int gdsNum) throws Exception {
+		return dao.listReview(gdsNum);
 	}
 
 	//리뷰 수정
 	@Override
-	public void updateReview(ReviewVO review) throws Exception {
-		dao.updateReview(review);
+	public int updateReview(ReviewVO review) throws Exception {
+		return dao.updateReview(review);
 	}
 
 	//리뷰 삭제
 	@Override
-	public void deleteReview(int reviewNum) throws Exception {
-		dao.deleteReview(reviewNum);
+	public int deleteReview(int reviewNum) throws Exception {
+		return dao.deleteReview(reviewNum);
 	}
+	
+	//아이디 체크
+	@Override
+	public String reviewUserId(int reviewNum) throws Exception {
+		return dao.reviewUserId(reviewNum);
+	}
+
 
 	//장바구니 담기
 	@Override
@@ -100,4 +108,12 @@ public class ShopServiceImpl implements ShopService {
 		dao.orderInfoDetail(orderDetail);
 		
 	}
+
+
+	@Override
+	public void cartAllDelete(String userId) throws Exception {
+		dao.cartAllDelete(userId);
+	}
+
+
 }

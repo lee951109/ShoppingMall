@@ -2,6 +2,7 @@ package com.shop.persistence;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
-import com.shop.paging.Criteria;
 
 @Repository
 public class ShopDAOImpl implements ShopDAO {
@@ -26,10 +26,10 @@ public class ShopDAOImpl implements ShopDAO {
 	@Override
 	public List<GoodsVO> list(int cateCode, int cateCodeRef)throws Exception {
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		
 		map.put("cateCode", cateCode);
-		map.put("cateCodeRef", cateCodeRef); 
+		map.put("cateCodeRef", cateCodeRef);
 		//map에 cateCode, cateCodeRef를 넣어줌
 		
 		return session.selectList(namespace + ".list_1", map);
@@ -41,7 +41,7 @@ public class ShopDAOImpl implements ShopDAO {
 	public List<GoodsVO> list(int cateCode) throws Exception {
 		return session.selectList(namespace + ".list_2", cateCode);
 	}
-	
+
 	//상품 상세보기
 	@Override
 	public GoodsVO goodsUserDetail(int gdsNum) throws Exception {
@@ -57,21 +57,30 @@ public class ShopDAOImpl implements ShopDAO {
 	
 	//리뷰 리스트
 	@Override
-	public List<ReviewVO> listReview(Criteria cri, int gdsNum) throws Exception {
-		return session.selectList(namespace +".listReview",gdsNum);
+	public List<ReviewVO> listReview(int gdsNum) throws Exception {
+		return session.selectList(namespace +".listReview", gdsNum);
 	}
 
 	//리뷰 수정
 	@Override
-	public void updateReview(ReviewVO review) throws Exception {
-		session.update(namespace + ".updateReview", review);
+	public int updateReview(ReviewVO review) throws Exception {
+		return session.update(namespace + ".updateReview", review);
 	}
 
 	//리뷰 삭제
 	@Override
-	public void deleteReview(int reviewNum) throws Exception {
-		session.delete(namespace + ".deleteReview", reviewNum);
+	public int deleteReview(int reviewNum) throws Exception {
+		return session.delete(namespace + ".deleteReview", reviewNum);
 	}
+	
+	//아이디 쳌
+
+	@Override
+	public String reviewUserId(int reviewNum) throws Exception {
+		return session.selectOne(namespace + ".reviewUserId", reviewNum);
+	}
+
+
 
 	//장바구니 담기
 	@Override
@@ -104,6 +113,12 @@ public class ShopDAOImpl implements ShopDAO {
 	@Override
 	public void orderInfoDetail(OrderDetailVO orderDetail) throws Exception {
 		session.insert(namespace + ".orderInfoDetail", orderDetail);
+		
+	}
+
+	@Override
+	public void cartAllDelete(String userId) throws Exception {
+		session.delete(namespace + ".cartAllDelete", userId);
 		
 	}
 

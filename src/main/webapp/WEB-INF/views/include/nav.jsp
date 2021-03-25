@@ -4,7 +4,7 @@
 
 
 
-  <a class="navbar-brand" href="/">Logo</a>
+  <a class="navbar-brand" href="/"><img src="/resources/images/logo.png" style="width:150px; height:80px;"></a>
   <ul class="navbar-nav">
   <!-- Dropdown -->
    <li class="nav-item dropdown">

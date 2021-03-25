@@ -21,6 +21,7 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.MemberVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
+import com.shop.domain.ReviewVO;
 import com.shop.service.ShopService;
 
 @Controller
@@ -150,9 +151,10 @@ public class ShopController {
 		
 		orderDetail.setOrderId(orderId);
 		service.orderInfoDetail(orderDetail);
+	
+		service.cartAllDelete(userId);
 		
 		return "redirect:/orderList";
 	}
-	
 	
 }

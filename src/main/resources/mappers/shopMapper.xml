@@ -41,8 +41,28 @@
 		<result column="gdsThumbImg" property="gdsThumbImg" />
 		</association>		
 </resultMap>
+
+<resultMap type="ReviewVO" id="ReviewMap">
+	<id column="gdsNum" property="gdsNum" />
+	<id column="reviewNum" property="reviewNum"/>
+	<result column="reviewContent" property="reviewContent" />
+	<result column="userId" property="userId" />
+	<result column="reviewDate" property="reviewDate" />
+		<association javaType="MemberVO" property="memberVO" >
+		<id column="userId" property="userId" />
+		<result column="userName" property="userName"/>
+		<result column="userPass" property="userPass"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="address1" property="address1"/>
+		<result column="address2" property="address2"/>
+		<result column="address3" property="address3"/>
+		<result column="varify" property="varify"/>
+		<result column="regDate" property="regDate"/>
+		</association>
+</resultMap>
 	<!-- 카테고리별 상픔 리스트 1차 분류 -->
-	<select id="list_1" parameterType="int" resultMap="GoodsMap">
+	<select id="list_1" parameterType="GoodsVO" resultMap="GoodsMap">
 		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsImg, g.gdsThumbImg,
 				c.cateCode, c.cateName, c.cateCodeRef
 		FROM goods g INNER JOIN goods_category c
@@ -52,14 +72,14 @@
 	</select>
 	
 	<!-- 카테고리별 상픔 리스트 2차 분류 -->
-	<select id="list_2" parameterType="int" resultMap="GoodsMap">
+	<select id="list_2" parameterType="GoodsVO" resultMap="GoodsMap">
 		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsImg, g.gdsThumbImg,
 				c.cateCode, c.cateName, c.cateCodeRef
 		FROM goods g INNER JOIN goods_category c
 		ON g.cateCode = c.cateCode
 		WHERE g.cateCode = #{cateCode}
 	</select>
-	
+
 	<!-- 상품 조회 -->
 	<select id="goodsUserDetail"  parameterType="int" resultMap="GoodsMap">
 		select g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDes, g.gdsImg, g.gdsDate, g.gdsThumbImg,
@@ -69,16 +89,17 @@
 		where gdsNum = #{gdsNum}
 	</select>
 	
-	<!-- 상품리부 작성 -->
+	<!-- 리부 작성 -->
 	<insert id="registReview">
 		insert into review(gdsNum, userId, reviewNum, reviewContent)
 		values(#{gdsNum}, #{userId}, #{reviewNum}, #{reviewContent})
 	</insert>
 	
 	<!-- 리뷰 리스트 -->
-	<select id="listReview" resultType="ReviewVO">
-		select gdsNum, userId, reviewNum, reviewContent
-		from review
+	<select id="listReview" parameterType="ReviewVO" resultMap="ReviewMap">
+		select r.gdsNum, r.userId, r.reviewNum, r.reviewContent, r.reviewDate, m.userId, m.userName
+		from review r join member m
+		on r.userId = m.userId 
 		where gdsNum = #{gdsNum}
 		order by reviewNum asc
 	</select>
@@ -86,14 +107,20 @@
 	<!-- 리뷰 수정 -->
 	<update id="updateReview">
 		update review
-		set reviewContent = #{reviewContent}, updateDate = #{updateDate}
+		set reviewContent = #{reviewContent}
 		where reviewNum = #{reviewNum}
 	</update>
 	
 	<!-- 리뷰 삭제 -->
 	<delete id="deleteReview">
-		delete from review where reviewNum = #{reviewNum}
+		delete from review
+		where reviewNum = #{reviewNum}
 	</delete>
+	
+	<!-- 아이디 체크체크 -->
+	<select id="reviewUserId" resultType="String">
+		select userId from review where reviewNum = #{reviewNum}
+	</select>
 	
 	<!-- 장바구니 저장 -->
 	<insert id="addCart">
@@ -124,12 +151,14 @@
 	
 	<!-- 주문 상세 정보 -->
 	<insert id="orderInfoDetail">
-		INSERT INTO orderDetails(orderDetailsNum, orderId, gdsNum, cartStock)
-		values(#{orderDetailsNum}, #{orderId}, #{gdsNum}, #{cartStock})
-	<selectKey keyProperty="orderId" resultType="String" order="BEFORE">
-		select LAST_INSERT_ID()
+		insert into orderdetails(orderId, gdsNum, cartStock)
+		select #{orderId}, gdsNum, cartStock
 		from cart
-	</selectKey>
 	</insert>
+	
+	<!-- 주문 후 장바구니 비우기  -->
+	<delete id="cartAllDelete">
+		delete cart where userId = #{userId}
+	</delete>
 	
 </mapper>

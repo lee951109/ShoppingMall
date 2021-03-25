@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
   
-  <a class="navbar-brand" href="/">Logo</a>
+  <a class="navbar-brand" href="/"><img src="/resources/images/logo.png" style="width:150px; height:80px;"></a>
   <ul class="navbar-nav">
   	<li class="nav-item">
   		<a class="nav-link" href="/admin/goods/register">무기 등록</a>
