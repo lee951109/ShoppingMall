@@ -48,17 +48,19 @@ public class ShopDAOImpl implements ShopDAO {
 		return session.selectOne(namespace + ".goodsUserDetail", gdsNum);
 	}
 	
+	//======================================================================
+	
 	//상품리뷰 등록
 	@Override
 	public int registReview(ReviewVO review) throws Exception {
 		return session.insert(namespace + ".registReview", review);
 
 	}
-	
+
 	//리뷰 리스트
 	@Override
 	public List<ReviewVO> listReview(int gdsNum) throws Exception {
-		return session.selectList(namespace +".listReview", gdsNum);
+		return session.selectList(namespace +".pagingReview", gdsNum);
 	}
 
 	//리뷰 수정
@@ -74,19 +76,17 @@ public class ShopDAOImpl implements ShopDAO {
 	}
 	
 	//아이디 쳌
-
 	@Override
-	public String reviewUserId(int reviewNum) throws Exception {
-		return session.selectOne(namespace + ".reviewUserId", reviewNum);
+	public String idCheck(int reviewNum) throws Exception {
+		return session.selectOne(namespace + ".idCheck", reviewNum);
 	}
 
-
+   //=======================================================================================
 
 	//장바구니 담기
 	@Override
 	public void addCart(CartVO cart) throws Exception {
 		session.insert(namespace + ".addCart", cart);
-		
 	}
 
 	//장바구니 리스트
@@ -99,27 +99,32 @@ public class ShopDAOImpl implements ShopDAO {
 	@Override
 	public void deleteCart(CartVO cart) throws Exception {
 		session.delete(namespace + ".deleteCart", cart);
-		
 	}
 
+	//============================================================================
+	
 	//주문 정보
 	@Override
 	public void orderInfo(OrderVO order) throws Exception {
 		session.insert(namespace + ".orderInfo", order);
-		
 	}
 
 	//주문 상세 정보
 	@Override
 	public void orderInfoDetail(OrderDetailVO orderDetail) throws Exception {
 		session.insert(namespace + ".orderInfoDetail", orderDetail);
-		
 	}
 
+	//주문후 장바구니 비우기
 	@Override
 	public void cartAllDelete(String userId) throws Exception {
 		session.delete(namespace + ".cartAllDelete", userId);
-		
 	}
+
+	//특정 고객의 주문 목록
+	@Override
+	public List<OrderVO> orderList(OrderVO order) throws Exception {
+		return session.selectList(namespace + ".orderList", order);
+	}	
 
 }

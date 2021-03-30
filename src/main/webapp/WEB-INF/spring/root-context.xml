@@ -13,7 +13,7 @@
 <!-- 	<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/mcos?serverTimezone=Asia/Seoul"></property> -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://localhost:3306/shoppingmall?serverTimezone=Asia/Seoul"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://localhost:3306/shoppingmall?characterEncoding=UTF-8&amp;serverTimezone=Asia/Seoul"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value="0304"></property>
 	</bean>
@@ -56,6 +56,9 @@
 			<property name="maxUploadSize" value="10485760" />
 			<property name="maxInMemorySize" value="102400" />
 		</bean>
+		
+		
+					
 		
 	<!-- 스프링에서 인식 해야할 객체가 담긴 패키지(자신이 인식 시켜야 할 객체를 가지고 있는 패키지를 기입하면 된다) -->
 		<context:component-scan base-package="com.shop.sample"></context:component-scan>

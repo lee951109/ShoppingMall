@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="/resources/css/main.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- modal jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
@@ -50,6 +52,7 @@ div.modalContent textarea { font-size:16px; font-family:'맑은 고딕', verdana
 </style>
 
 <script>
+
 function getReviews(){
 	var gdsNum = ${detail.gdsNum};
 	
@@ -59,7 +62,8 @@ function getReviews(){
 		
 			$(data).each(function(){
 			//console.log(data);
-				str += "<li data-reviewNum='" + this.reviewNum + "'>"
+						
+				str +="<li data-reviewNum='" + this.reviewNum + "'>"
 					+ "<div class='userInfo'>"
 					+ "<span class='userId'>" + this.userId + "</span>"
 					+ "<span class='reviewDate'>" + this.reviewDate + "</span>"
@@ -76,8 +80,8 @@ function getReviews(){
 			$("#reviews").html(str);
 		});
 }
-
-
+	
+		//리뷰 삭제 함수
 $(document).on("click","#delete", function(){
 	var delConfirm = confirm("정말로 삭제하시겠습니까?");
 	
@@ -93,6 +97,8 @@ $(document).on("click","#delete", function(){
 			success : function(result){
 				if(result == "delSuccess"){
 					getReviews();
+				}else{
+					alert("작성자 외 삭제가 불가능합니다.");
 				}
 			},
 			error: function(err){
@@ -185,9 +191,11 @@ $(document).on("click","#delete", function(){
 								data: data,
 								success:function(result){
 									if(result == 1){
-										alert("장바구니에 담았습니다.");
-										console.log("성공result : " + result);
-										$(".numBox").val("1"); // 초기화
+										var success = confirm("장바구니로 이동하시겠습니까?");
+											if(success){
+											location.href="cartList";
+											}else{$(".numBox").val("1"); // 초기화
+											}
 									}else{
 										alert("로그인 후 사용 가능합니다.");
 										console.log("실패result : " + result);
@@ -258,17 +266,18 @@ $(document).on("click","#delete", function(){
 						</form>
 					</section>
 					</c:if>
-					
+					<button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#demo">Review List</button>
+					<div id="demo" class="collapse">
 					<section class="reviewList">
+					
 						<ol id="reviews">
-			
-						</ol>
 						
+						</ol>
 						<script>
 							getReviews();
 						</script>
-					
 					</section>
+					</div>
 				</div>			
 		</section>
 		<aside id="aside">
@@ -294,7 +303,8 @@ $(document).on("click","#delete", function(){
 		
 		var reviewNum = $(this).attr("data-reviewNum");
 		var reviewContent = $(this).parent().parent().children(".reviewContent").text();
-		console.log(reviewContent);
+		//this = 수정버튼의 parent(reviewfooter).parent(<li>)의 자식인 class=reviewContent의 text를 찾음.
+		//console.log(reviewContent);
 		$(".modal_reviCon").val(reviewContent);
 		$("#modifyBtn").attr("data-reviewNum", reviewNum);
 		
@@ -322,8 +332,10 @@ $(document).on("click","#delete", function(){
 			data: JSON.stringify({reviewContent : reviewContent}),
 			success : function(result){
 				if(result == "modSuccess"){
-					getReviews();
 					$(".reviewModal").fadeOut(200);
+					getReviews();
+				}else{
+					alert("작성자 외 수정이 불가능합니다." +result);
 				}
 			},
 			error : function(err){

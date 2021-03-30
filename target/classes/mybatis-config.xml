@@ -10,6 +10,7 @@
 		<typeAlias type="com.shop.domain.MemberVO" alias="MemberVO" />
 		<typeAlias type="com.shop.domain.ReviewVO" alias="ReviewVO" />
 		<typeAlias type="com.shop.domain.CartVO" alias="CartVO" />
+		<typeAlias type="com.shop.domain.OrderVO" alias="OrderVO" />
 	</typeAliases>
 
 </configuration>

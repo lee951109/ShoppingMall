@@ -2,6 +2,7 @@ package com.shop.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -52,11 +53,9 @@ public class ReviewController {
 		@RequestMapping(value = "/all/{gdsNum}", method = RequestMethod.GET)
 		public ResponseEntity<List<ReviewVO>> listReview(@PathVariable("gdsNum")int gdsNum) throws Exception{
 			logger.info("리뷰 목록쓰");
-				ResponseEntity<List<ReviewVO>> entity = null;
+			ResponseEntity<List<ReviewVO>> entity = null;
 				try {
-					
 					entity = new ResponseEntity<>(service.listReview(gdsNum), HttpStatus.OK);
-//					System.out.println("ReviewVO : " + service.listReview(gdsNum));
 				}catch(Exception e) {
 					e.printStackTrace();
 					entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -66,35 +65,50 @@ public class ReviewController {
 		
 		//리뷰 수정
 		@RequestMapping(value = "/{reviewNum}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-		public ResponseEntity<String> updateReview(@PathVariable("reviewNum")int reviewNum, @RequestBody ReviewVO review){
-			logger.info("리뷰 수정했습니다.");
+		public ResponseEntity<String> updateReview(@PathVariable("reviewNum")int reviewNum, ReviewVO vo,
+													HttpSession session,@RequestBody ReviewVO review){ 
+													//RequestBody는 HTTP 요청의 body내용을 자바 객체로 맵핑하는 역할
+			logger.info("리뷰 수정");
 			
 			ResponseEntity<String> entity = null;
 			try {
-				review.setReviewNum(reviewNum);
-				service.updateReview(review);
-				entity = new ResponseEntity<>("modSuccess", HttpStatus.OK);
+				MemberVO member = (MemberVO)session.getAttribute("member");
+				//System.out.println("member : " + member);
+				String userId = service.idCheck(vo.getReviewNum());
+				//System.out.println("userId : " + userId);
+				
+				if(member.getUserId().equals(userId)) {
+					review.setUserId(member.getUserId());
+					review.setReviewNum(reviewNum);
+					service.updateReview(review);
+					entity = new ResponseEntity<String>("modSuccess", HttpStatus.OK);
+				}
 			}catch(Exception e) {
 				e.printStackTrace();
-				entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+				entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 			}
 			return entity;
 		}
 		
 		//리뷰 삭제
 		@RequestMapping(value = "/{reviewNum}", method = RequestMethod.DELETE)
-		public ResponseEntity<String> deleteReview(@PathVariable("reviewNum")int reviewNum, HttpSession session, ReviewVO review){
+		public ResponseEntity<String> deleteReview(@PathVariable("reviewNum")int reviewNum,
+													HttpSession session, ReviewVO review){
 			logger.info("리뷰 삭제");
 			ResponseEntity<String> entity = null;
 			try {
-//				MemberVO member = (MemberVO)session.getAttribute("member");
-//				review.setUserId(member.getUserId());
-//				
-				service.deleteReview(reviewNum);
-				entity = new ResponseEntity<>("delSuccess", HttpStatus.OK);
+				
+				MemberVO member = (MemberVO)session.getAttribute("member");
+				String userId = service.idCheck(review.getReviewNum());
+				
+				if(member.getUserId().equals(userId)) {
+					review.setUserId(member.getUserId());
+					service.deleteReview(reviewNum);
+					entity = new ResponseEntity<String>("delSuccess", HttpStatus.OK);
+				}
 			}catch(Exception e) {
 				e.printStackTrace();
-				entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+				entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 			}
 			return entity;
 			

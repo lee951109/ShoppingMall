@@ -43,6 +43,9 @@
     <li class="nav-item">
       <a class="nav-link" href="/cartList">장바구니</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/orderList">주문 리스트</a>
+    </li>
     </c:if>
   </ul>
 

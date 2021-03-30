@@ -10,7 +10,6 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
-import com.shop.paging.Criteria;
 import com.shop.persistence.ShopDAO;
 
 @Service
@@ -42,6 +41,8 @@ public class ShopServiceImpl implements ShopService {
 	public GoodsVO goodsUserDetail(int gdsNum) throws Exception {
 		return dao.goodsUserDetail(gdsNum);
 	}
+	
+	//==================================================================
 
 	//상품리뷰 등록
 	@Override
@@ -49,12 +50,13 @@ public class ShopServiceImpl implements ShopService {
 		return dao.registReview(review);
 		
 	}
-
+	
 	//리뷰 리스트
 	@Override
 	public List<ReviewVO> listReview(int gdsNum) throws Exception {
 		return dao.listReview(gdsNum);
 	}
+	
 
 	//리뷰 수정
 	@Override
@@ -70,10 +72,11 @@ public class ShopServiceImpl implements ShopService {
 	
 	//아이디 체크
 	@Override
-	public String reviewUserId(int reviewNum) throws Exception {
-		return dao.reviewUserId(reviewNum);
+	public String idCheck(int reviewNum) throws Exception {
+		return dao.idCheck(reviewNum);
 	}
-
+	
+	//==================================================================
 
 	//장바구니 담기
 	@Override
@@ -95,6 +98,8 @@ public class ShopServiceImpl implements ShopService {
 		
 	}
 
+	//==================================================================
+	
 	//주문 정보
 	@Override
 	public void orderInfo(OrderVO order) throws Exception {
@@ -109,10 +114,16 @@ public class ShopServiceImpl implements ShopService {
 		
 	}
 
-
+	//주문후 장바구니 비우기
 	@Override
 	public void cartAllDelete(String userId) throws Exception {
 		dao.cartAllDelete(userId);
+	}
+
+	//특정 고객의 주문 목록
+	@Override
+	public List<OrderVO> orderList(OrderVO order) throws Exception {
+		return dao.orderList(order);
 	}
 
 

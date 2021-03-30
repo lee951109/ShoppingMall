@@ -144,6 +144,8 @@ public class ShopController {
 		
 		String orderId = ymd + "-" +subNum; //주문 번호는 년/월/일-랜덤번호로 구성
 		
+		System.out.println("orderId? : " + orderId);
+		
 		order.setOrderId(orderId);
 		order.setUserId(userId);
 		
@@ -155,6 +157,22 @@ public class ShopController {
 		service.cartAllDelete(userId);
 		
 		return "redirect:/orderList";
+	}
+	
+	//주문 목록
+	@RequestMapping(value = "/orderList", method = RequestMethod.GET)
+	public void orderListGET(HttpSession session, OrderVO order, Model model)throws Exception{
+		logger.info("get 주문 목록~~");
+		
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String userId = member.getUserId();
+		
+		order.setUserId(userId);
+		
+		List<OrderVO> orderList = service.orderList(order);
+		System.out.println("orderList" + orderList);
+		
+		model.addAttribute("orderList", orderList);
 	}
 	
 }

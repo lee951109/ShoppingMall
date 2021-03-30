@@ -7,7 +7,6 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
-import com.shop.paging.Criteria;
 
 public interface ShopService {
 
@@ -16,11 +15,13 @@ public interface ShopService {
 	
 	//상품 상세보기
 	public GoodsVO goodsUserDetail(int gdsNum)throws Exception;
+	
+	//==================================================================
 
 	//상품리뷰 등록
 	public int registReview(ReviewVO review)throws Exception;
 	
-	//리뷰 리스트
+	//리뷰 리스트 
 	public List<ReviewVO> listReview(int gdsNum)throws Exception;
 	
 	//리뷰 수정
@@ -30,7 +31,9 @@ public interface ShopService {
 	public int deleteReview(int reviewNum)throws Exception;
 	
 	//아이디 체크
-	public String reviewUserId(int reviewNum)throws Exception;
+	public String idCheck(int reviewNum)throws Exception;
+	
+	//==================================================================
 	
 	//장바구니 담기
 	public void addCart(CartVO cart)throws Exception;
@@ -41,6 +44,8 @@ public interface ShopService {
 	//장바구니 삭제
 	public void deleteCart(CartVO cart)throws Exception;
 	
+	//==================================================================
+	
 	//주문 정보
 	public void orderInfo(OrderVO order)throws Exception;
 	
@@ -49,4 +54,7 @@ public interface ShopService {
 	
 	//주문 후 장바구니 비우기
 	public void cartAllDelete(String userId)throws Exception;
+	
+	//특정 고객의 주문 목록
+	public List<OrderVO> orderList(OrderVO order)throws Exception;
 }

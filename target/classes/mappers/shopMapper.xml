@@ -89,26 +89,28 @@
 		where gdsNum = #{gdsNum}
 	</select>
 	
+	<!-- ========================================================================================== -->
+	
 	<!-- 리부 작성 -->
 	<insert id="registReview">
 		insert into review(gdsNum, userId, reviewNum, reviewContent)
 		values(#{gdsNum}, #{userId}, #{reviewNum}, #{reviewContent})
 	</insert>
-	
-	<!-- 리뷰 리스트 -->
-	<select id="listReview" parameterType="ReviewVO" resultMap="ReviewMap">
+
+	<!-- 리뷰 리스트-->
+	<select id="pagingReview" parameterType="ReviewVO" resultMap="ReviewMap">
 		select r.gdsNum, r.userId, r.reviewNum, r.reviewContent, r.reviewDate, m.userId, m.userName
 		from review r join member m
 		on r.userId = m.userId 
 		where gdsNum = #{gdsNum}
 		order by reviewNum asc
 	</select>
-	
+
 	<!-- 리뷰 수정 -->
 	<update id="updateReview">
 		update review
 		set reviewContent = #{reviewContent}
-		where reviewNum = #{reviewNum}
+		where reviewNum = #{reviewNum} and userId = #{userId}
 	</update>
 	
 	<!-- 리뷰 삭제 -->
@@ -118,9 +120,11 @@
 	</delete>
 	
 	<!-- 아이디 체크체크 -->
-	<select id="reviewUserId" resultType="String">
+	<select id="idCheck" resultType="String">
 		select userId from review where reviewNum = #{reviewNum}
 	</select>
+	
+	<!-- ========================================================================================== -->
 	
 	<!-- 장바구니 저장 -->
 	<insert id="addCart">
@@ -143,6 +147,8 @@
 		delete from cart where cartNum = #{cartNum} and userId = #{userId}
 	</delete>
 	
+	<!-- ========================================================================================== -->
+	
 	<!-- 주문 정보 -->
 	<insert id="orderInfo">
 		insert into `order`(orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount)
@@ -151,14 +157,21 @@
 	
 	<!-- 주문 상세 정보 -->
 	<insert id="orderInfoDetail">
-		insert into orderdetails(orderId, gdsNum, cartStock)
+		insert into orderdetail(orderId, gdsNum, cartStock)
 		select #{orderId}, gdsNum, cartStock
 		from cart
 	</insert>
 	
 	<!-- 주문 후 장바구니 비우기  -->
 	<delete id="cartAllDelete">
-		delete cart where userId = #{userId}
+		delete from cart where userId = #{userId}
 	</delete>
+	
+	<!-- 특정 고객의 주문 목록 -->
+	<select id="orderList" resultType="OrderVO">
+		select orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount, orderDate
+		from `order`
+		where userId = #{userId}
+	</select>
 	
 </mapper>

@@ -171,7 +171,7 @@ section#content ul li { margin:10px 0; }
 					</li>
 					<hr/>
 					<%-- 반복할 때마다 sum에 상품 가격(gdsPrice)*상품 갯수(cartStock)만큼을 더함 --%>
-				<c:set var="sum" value="${sum + ( cartList.goodsVO.gdsPrice * cartList.cartStock)}"/>	
+				<c:set var="sum" value="${sum + ( cartList.goodsVO.gdsPrice * cartList.cartStock)}"/>	 
 				</c:forEach>
 			</ul>
 			
@@ -193,7 +193,6 @@ section#content ul li { margin:10px 0; }
 			<div class="orderInfo">
 				<form role="form" method="post" autocomplete="off">
 					<input type="hidden" name="amount" value="${sum}">
-					
 					<div class="inputArea">
 						<label for="">수령인</label>
 						<input type="text" name="orderRec" id="orderRec" required>

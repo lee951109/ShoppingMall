@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class OrderVO {
 
-	private String orderId;			//주문자 아이디
+	private String orderId;			//주문번호
 	private String userId;			//유저 아이디
 	private String orderRec;		//수신자 Receiver
 	private String userAddr1;		//주소1
