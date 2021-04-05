@@ -61,6 +61,49 @@
 		<result column="regDate" property="regDate"/>
 		</association>
 </resultMap>
+
+<resultMap type="OrderVO" id="OrderMap">
+	<id column="orderId" property="orderId" />
+	<result column="userId" property="userId" />
+	<result column="orderRec" property="orderRec" />
+	<result column="userAddr1" property="userAddr1" />
+	<result column="userAddr2" property="userAddr2" />
+	<result column="userAddr3" property="userAddr3" />
+	<result column="amount" property="amount" />
+	<result column="orderDate" property="orderDate" />
+	<result column="deilvery" property="deilvery" />
+		<collection javaType="OrderDetailVO" property="orderDetailVO" >
+			<id column="orderDetailsNum" property="orderDetailsNum" />
+			<result column="gdsNum" property="gdsNum" />
+			<result column="cartStock" property="cartStock" />
+			<result column="orderId" property="orderId" />
+		</collection>
+		<collection javaType="GoodsVO" property="goodsVO">
+			<id column="gdsNum" property="gdsNum" />
+			<result column="gdsName" property="gdsName" />
+			<result column="gdsPrice" property="gdsPrice" />
+			<result column="gdsThumbImg" property="gdsThumbImg" />
+		</collection>
+</resultMap>
+
+	<!-- 메인 페이지 -->
+	<select id="mainPage" parameterType="GoodsVO" resultMap="GoodsMap">
+		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsImg, g.gdsThumbImg,
+				c.cateCode, c.cateName, c.cateCodeRef
+		FROM goods g INNER JOIN goods_category c
+		ON g.cateCode = c.cateCode
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<!-- 상품 총 갯수 -->
+	<select id="count" resultType="int">
+		<![CDATA[
+		select count(*) 
+		from goods
+		where gdsNum > 0
+		]]>
+	</select>	
+
 	<!-- 카테고리별 상픔 리스트 1차 분류 -->
 	<select id="list_1" parameterType="GoodsVO" resultMap="GoodsMap">
 		SELECT g.gdsNum, g.gdsName, g.cateCode, g.gdsPrice, g.gdsStock, g.gdsDate, g.gdsImg, g.gdsThumbImg,
@@ -167,11 +210,21 @@
 		delete from cart where userId = #{userId}
 	</delete>
 	
-	<!-- 특정 고객의 주문 목록 -->
+	<!-- 고객 주문 목록 -->
 	<select id="orderList" resultType="OrderVO">
-		select orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount, orderDate
+		select orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount, orderDate, delivery
 		from `order`
 		where userId = #{userId}
 	</select>
 	
+	<!-- 특정 주문 목록 -->
+	<select id="orderDetail" parameterType="OrderVO" resultMap="OrderMap">
+		SELECT o.orderId, o.userId, o.orderRec, o.userAddr1, o.userAddr2, o.userAddr3, o.orderPhone, o.amount, o.orderDate, o.delivery,
+				d.orderDetailsNum, d.gdsNum, d.cartStock, d.orderId,
+				g.gdsNum, g.gdsName, g.gdsThumbImg, g.gdsPrice
+		FROM `order` o INNER JOIN orderdetail d ON o.orderId = d.orderId
+						INNER JOIN goods g ON d.gdsNum = g.gdsNum
+		WHERE o.userId = #{userId} AND o.orderId = #{orderId}
+	</select>
+
 </mapper>

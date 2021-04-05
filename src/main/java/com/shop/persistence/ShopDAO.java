@@ -7,8 +7,15 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
+import com.shop.paging.Criteria;
 
 public interface ShopDAO {
+	
+	//메인페이지
+	public List<GoodsVO> mainPage(Criteria cri)throws Exception;
+	
+	//상품 총 갯수
+	public int count(Criteria cri) throws Exception;
 
 	//카테고리별 상품 리스트: 1차
 	public List<GoodsVO> list(int cateCode, int cateCodeRef)throws Exception;
@@ -58,6 +65,9 @@ public interface ShopDAO {
 	//주문후 장바구니 비우기
 	public void cartAllDelete(String userId)throws Exception;
 	
-	//특정 고객의 주문 목록
+	//고객 주문 목록
 	public List<OrderVO> orderList(OrderVO order)throws Exception;
+	
+	//특정 주문 목록
+	public List<OrderVO> orderDetail(OrderVO order)throws Exception;
 }

@@ -13,6 +13,7 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
+import com.shop.paging.Criteria;
 
 @Repository
 public class ShopDAOImpl implements ShopDAO {
@@ -21,6 +22,18 @@ public class ShopDAOImpl implements ShopDAO {
 	
 	@Autowired
 	private SqlSession session;
+	
+	//메인 페이지
+	@Override
+	public List<GoodsVO> mainPage(Criteria cri) throws Exception {
+		return session.selectList(namespace + ".mainPage", cri);
+	}	
+	
+	//상품 총 갯수
+	@Override
+	public int count(Criteria cri) throws Exception {
+		return session.selectOne(namespace + ".count", cri);
+	}
 	
 	//카테고리별 상품 리스트 1차
 	@Override
@@ -121,10 +134,17 @@ public class ShopDAOImpl implements ShopDAO {
 		session.delete(namespace + ".cartAllDelete", userId);
 	}
 
-	//특정 고객의 주문 목록
+	//고객 주문 목록
 	@Override
 	public List<OrderVO> orderList(OrderVO order) throws Exception {
 		return session.selectList(namespace + ".orderList", order);
-	}	
+	}
+
+	//특정 주문 목록
+	@Override
+	public List<OrderVO> orderDetail(OrderVO order) throws Exception {
+		return session.selectList(namespace + ".orderDetail", order);
+	}
+
 
 }

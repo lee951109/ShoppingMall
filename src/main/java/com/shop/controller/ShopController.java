@@ -21,7 +21,8 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.MemberVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
-import com.shop.domain.ReviewVO;
+import com.shop.paging.Criteria;
+import com.shop.paging.PageMaker;
 import com.shop.service.ShopService;
 
 @Controller
@@ -35,10 +36,19 @@ public class ShopController {
 	
 	//메인 페이지 이동
 	@RequestMapping(value = "/", method=RequestMethod.GET)
-	public String mainPageGET() {
+	public String mainPageGET(Model model, Criteria cri)throws Exception {
 		logger.info("메인 페이지 진입");
 		
-		return "main";
+		List<GoodsVO> main = null;
+		main = service.mainPage(cri);
+		model.addAttribute("main", main);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.count(cri));
+		
+		model.addAttribute("pageMaker", pageMaker);
+		return "/main";
 	}
 	
 	//카테고리별 상품 리스트
@@ -124,7 +134,7 @@ public class ShopController {
 	}
 	
 	//주문
-	@RequestMapping(value = "cartList", method = RequestMethod.POST)
+	@RequestMapping(value = "cartList", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public String orderPOST(HttpSession session, OrderVO order, OrderDetailVO orderDetail)throws Exception{
 		logger.info("post 주문!");
 		
@@ -144,12 +154,13 @@ public class ShopController {
 		
 		String orderId = ymd + "-" +subNum; //주문 번호는 년/월/일-랜덤번호로 구성
 		
-		System.out.println("orderId? : " + orderId);
 		
 		order.setOrderId(orderId);
 		order.setUserId(userId);
 		
 		service.orderInfo(order);
+		
+		System.out.println("주문 버트 클릭 시 발생하는 이벤트 order : " + order);
 		
 		orderDetail.setOrderId(orderId);
 		service.orderInfoDetail(orderDetail);
@@ -160,7 +171,7 @@ public class ShopController {
 	}
 	
 	//주문 목록
-	@RequestMapping(value = "/orderList", method = RequestMethod.GET)
+	@RequestMapping(value = "/orderList", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	public void orderListGET(HttpSession session, OrderVO order, Model model)throws Exception{
 		logger.info("get 주문 목록~~");
 		
@@ -170,9 +181,27 @@ public class ShopController {
 		order.setUserId(userId);
 		
 		List<OrderVO> orderList = service.orderList(order);
-		System.out.println("orderList" + orderList);
+		//System.out.println("order" + order);
 		
 		model.addAttribute("orderList", orderList);
 	}
+	
+	//특정 주문 목록
+	@RequestMapping(value = "/orderDetail", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	public void orderViewGET(HttpSession session, @RequestParam("n")String orderId,
+							OrderVO order, Model model)throws Exception{
+		logger.info("get 주문 상세보기");
+		
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String userId = member.getUserId();
+		
+		order.setUserId(userId);
+		order.setOrderId(orderId);
+		
+		List<OrderVO> orderDetail = service.orderDetail(order);
+		System.out.println("orderDetail : " + orderDetail);
+		
+		model.addAttribute("orderDetail", orderDetail);
+	}	
 	
 }

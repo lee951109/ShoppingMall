@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shop.domain.CategoryVO;
 import com.shop.domain.GoodsVO;
+import com.shop.domain.OrderVO;
+import com.shop.domain.ReviewVO;
 import com.shop.paging.Criteria;
 import com.shop.paging.PageMaker;
 import com.shop.service.AdminService;
@@ -30,6 +32,7 @@ public class AdminController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
+	//상품 등록시 사진이 저장되는 경로
 	private String uploadPath = "C:\\Users\\82108\\eclipse-workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\shoppingMall\\resources";
 	
 	@Autowired
@@ -161,6 +164,52 @@ public class AdminController {
 		
 		service.goodsDelete(gdsNum);
 		return "redirect:/admin/goods/list";
+	}
+	
+	//모든 유저 주문 목록
+	@RequestMapping(value = "/goods/orderList", method = RequestMethod.GET)
+	public void allOrderListGET(Model model)throws Exception{
+		logger.info("get 모든 유저 주문 목록~");
+		
+		List<OrderVO> orderList = service.allOrderList();
+		
+		model.addAttribute("orderList", orderList);
+	}
+	
+	//특정 주문 목록
+	@RequestMapping(value = "/goods/orderDetail", method = RequestMethod.GET)
+	public void orderDetailGET(@RequestParam("n")String orderId, OrderVO order, Model model)throws Exception{
+		logger.info("get 특정 유저 주문 목록~");
+		
+		order.setOrderId(orderId);
+		
+		List<OrderVO> orderDetail = service.orderDetail(order);
+		
+		model.addAttribute("orderDetail", orderDetail);
+	}
+
+	//배송 상태
+	@RequestMapping(value = "/goods/orderDetail", method = RequestMethod.POST)
+	public String deliveryPOST(OrderVO order)throws Exception{
+		logger.info("post 배송 상태 변경");
+		
+		service.delivery(order);
+		System.out.println("order : " + order);
+
+		
+		return "redirect:/admin/goods/orderDetail?n=" + order.getOrderId();
+	}
+	
+	//모든 리뷰 
+	@RequestMapping(value = "/allReview", method = RequestMethod.GET)
+	public void allReviewGET(Model model)throws Exception{
+		logger.info("get 모든 리뷰 보기");
+		
+		List<ReviewVO> reviewList = service.allReview();
+		System.out.println("reviewList : " + reviewList);
+		
+		
+		model.addAttribute("reviewList", reviewList);
 	}
 
 }

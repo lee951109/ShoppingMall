@@ -13,7 +13,7 @@
 			<li><a href="/list?c=102&l=2">기관단총(SMG)</a></li>
 			<li><a href="/list?c=103&l=2">산탄총(SG)</a></li>
 			<li><a href="/list?c=104&l=2">소총(DMR)</a></li>
-			<li><a href="/list?c=107&l=2">저격총(SR)</a></li>
+			<li><a href="/list?c=105&l=2">저격총(SR)</a></li>
 		</ul>
 		
 	</li>

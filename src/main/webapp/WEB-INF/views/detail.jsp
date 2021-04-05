@@ -14,7 +14,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- modal jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
@@ -52,21 +52,43 @@ div.modalContent textarea { font-size:16px; font-family:'맑은 고딕', verdana
 </style>
 
 <script>
-
+function displayTime(timeValue){
+	var today = new Date(); //현재 날짜 및 시간
+		//getTime()은 1970년1월1일 기준으로한 밀리 초 값을 보여준다
+	var gap = today.getTime() - timeValue; 
+	
+	var dateObj = new Date(timeValue);
+	var str = "";
+	
+	if(gap < (1000 * 60 * 60 * 24)){ //1000 * 60 * 60 * 24 = 하루를 초로 계산한 시간이다 (86400000)
+		var hh = dateObj.getHours();
+		var mi = dateObj.getMinutes();
+		var ss = dateObj.getSeconds();
+		
+		return [(hh>9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':', (ss > 9 ? '' : '0') + ss].join('');
+	}else{
+		var yy = dateObj.getFullYear();
+		var mm = dateObj.getMonth() + 1; // getMonth() is zero-based
+		var dd = dateObj.getDate();
+		
+		return [yy, '/', (mm > 9 ? '' : '0')+mm, '/', (dd > 9 ? '' : '0') + dd].join('');
+	}
+};
 function getReviews(){
 	var gdsNum = ${detail.gdsNum};
 	
 		$.getJSON("/reviews/all/" + gdsNum,function(data){
 			var str = "";
 			//console.log(data.length);
-		
+			
+
 			$(data).each(function(){
 			//console.log(data);
 						
 				str +="<li data-reviewNum='" + this.reviewNum + "'>"
 					+ "<div class='userInfo'>"
 					+ "<span class='userId'>" + this.userId + "</span>"
-					+ "<span class='reviewDate'>" + this.reviewDate + "</span>"
+					+ "<span class='reviewDate'>" + displayTime(this.reviewDate) + "</span>"
 					+ "</div>"
 					+ "<div class='reviewContent'>" + this.reviewContent + "</div>"
 					

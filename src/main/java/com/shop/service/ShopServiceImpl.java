@@ -10,6 +10,7 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.OrderDetailVO;
 import com.shop.domain.OrderVO;
 import com.shop.domain.ReviewVO;
+import com.shop.paging.Criteria;
 import com.shop.persistence.ShopDAO;
 
 @Service
@@ -18,6 +19,19 @@ public class ShopServiceImpl implements ShopService {
 	@Autowired
 	private ShopDAO dao;
 	
+	
+	//메인 페이지
+	@Override
+	public List<GoodsVO> mainPage(Criteria cri) throws Exception {
+		return dao.mainPage(cri);
+	}
+
+	//상품 총 갯수
+	@Override
+	public int count(Criteria cri) throws Exception {
+		return dao.count(cri);
+	}
+
 	//카테고리별 상품 리스트 1차	
 	@Override
 	public List<GoodsVO> list(int cateCode, int level) throws Exception {
@@ -120,11 +134,16 @@ public class ShopServiceImpl implements ShopService {
 		dao.cartAllDelete(userId);
 	}
 
-	//특정 고객의 주문 목록
+	//고객 주문 목록
 	@Override
 	public List<OrderVO> orderList(OrderVO order) throws Exception {
 		return dao.orderList(order);
 	}
 
+	//특정 주문 목록
+	@Override
+	public List<OrderVO> orderDetail(OrderVO order) throws Exception {
+		return dao.orderDetail(order);
+	}
 
 }

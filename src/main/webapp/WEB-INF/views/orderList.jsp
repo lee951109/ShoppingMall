@@ -6,8 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>ShopGun#</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="/resources/css/main.css">	
 
@@ -32,10 +35,11 @@ section#content .orderList span { font-size:20px; font-weight:bold; display:inli
 				<c:forEach items="${orderList}" var="orderList">
 					<li>
 						<div>
-							<p><span>주문번호</span><a href="/orderView?n=${orderList.orderId}">${orderList.orderId}</a></p>
+							<p><span>주문번호</span><a href="/orderDetail?n=${orderList.orderId}">${orderList.orderId}</a></p>
 							<p><span>수령인</span>${orderList.orderRec}</p>
 							<p><span>주소</span>(${orderList.userAddr1})	${orderList.userAddr2} ${orderList.userAddr3}</p>
 							<p><span>가격</span><fmt:formatNumber pattern="###,###,###" value="${orderList.amount}"/>원</p>
+							<p><span>배송 상태</span>${orderList.delivery}</p>
 						</div>
 					</li>
 				</c:forEach>	

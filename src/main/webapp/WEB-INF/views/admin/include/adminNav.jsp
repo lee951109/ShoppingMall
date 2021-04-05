@@ -11,10 +11,13 @@
   		<a class="nav-link" href="/admin/goods/list">무기 목록</a>
   	</li>
   	<li class="nav-item">
-  		<a class="nav-link" href="#">무기 소감</a>
+  		<a class="nav-link" href="/admin/allReview">상품 리뷰</a>
   	</li>
-  	  	<li class="nav-item">
+  	<li class="nav-item">
   		<a class="nav-link" href="#">유저 목록</a>
+  	</li>
+  	<li class="nav-item">
+  		<a class="nav-link" href="/admin/goods/orderList">주문 목록</a>
   	</li>
   </ul>
 

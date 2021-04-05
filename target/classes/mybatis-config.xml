@@ -11,6 +11,7 @@
 		<typeAlias type="com.shop.domain.ReviewVO" alias="ReviewVO" />
 		<typeAlias type="com.shop.domain.CartVO" alias="CartVO" />
 		<typeAlias type="com.shop.domain.OrderVO" alias="OrderVO" />
+		<typeAlias type="com.shop.domain.OrderDetailVO" alias="OrderDetailVO" />
 	</typeAliases>
 
 </configuration>
